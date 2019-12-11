@@ -20,7 +20,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/blog")
+@RequestMapping("/user")
 @Api(description = "用户接口")
 public class UserController {
 
@@ -36,27 +36,46 @@ public class UserController {
     @RequestMapping(value="/get/id",method= RequestMethod.GET)
     @ResponseBody
     public JSONObject getUserInfo(@RequestParam("id") Integer id){
-        JSONObject jsonObject = new JSONObject();
-        UserInfo userInfo = userInfoMapper.selectByPrimaryKey(id);
-        jsonObject = (JSONObject) JSONObject.toJSON(userInfo);
-        logger.debug("用户id=>{}",id);
-        logger.debug("用户信息=>{}",jsonObject.toJSONString());
-        return jsonObject;
+        JSONObject result = new JSONObject();
+        try{
+            UserInfo userInfo = userInfoMapper.selectByPrimaryKey(id);
+            JSONObject jsonObject = (JSONObject) JSONObject.toJSON(userInfo);
+            logger.debug("用户id=>{}",id);
+            logger.debug("用户信息=>{}",jsonObject.toJSONString());
+            result.put("data",jsonObject.toJSONString());
+            result.put("status","true");
+            result.put("message","请求成功");
+        }catch (Exception e){
+            logger.error(e.toString());
+            result.put("status","false");
+            result.put("message","请求失败");
+        }
+        return result;
     }
 
     @ApiOperation(value = "查询用户列表", notes = "查询用户列表")
-    @RequestMapping(value="/getUser/all",method= RequestMethod.GET)
+    @RequestMapping(value="/get/all",method= RequestMethod.GET)
     @ResponseBody
-    public JSONArray getUserAll(){
-        JSONArray jsonArray = new JSONArray();
-        List<UserInfo> userInfoList = userInfoMapper.getUserAll();
-        if(userInfoList.size()>0){
-            for(UserInfo userInfo : userInfoList){
-                jsonArray.add(JSONObject.toJSON(userInfo));
+    public JSONObject getUserAll(){
+        JSONObject result = new JSONObject();
+        try{
+            JSONArray jsonArray = new JSONArray();
+            List<UserInfo> userInfoList = userInfoMapper.getUserAll();
+            if(userInfoList.size()>0){
+                for(UserInfo userInfo : userInfoList){
+                    jsonArray.add(JSONObject.toJSON(userInfo));
+                }
             }
+            logger.debug("用户信息列表=>{}",jsonArray.toJSONString());
+            result.put("data",jsonArray.toJSONString());
+            result.put("status","true");
+            result.put("message","请求成功");
+        }catch (Exception e){
+            logger.error(e.toString());
+            result.put("status","false");
+            result.put("message","请求失败");
         }
-        logger.debug("用户信息列表=>{}",jsonArray.toJSONString());
-        return jsonArray;
+        return result;
     }
 
     @ApiOperation(value = "新增用户", notes = "新增用户")
@@ -67,19 +86,71 @@ public class UserController {
             @ApiImplicitParam(name = "telephone", value = "手机号码", required = true, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "avatar", value = "用户头像", required = true, paramType = "query", dataType = "String")
     })
-    @RequestMapping(value="/put/id",method= RequestMethod.PUT)
+    @RequestMapping(value="/insert",method= RequestMethod.POST)
     @ResponseBody
-    public JSONObject getUserInfo(@RequestParam("userCode") Integer userCode,
-                                  @RequestParam("password") Integer password,
-                                  @RequestParam("userName") Integer userName,
-                                  @RequestParam("telephone") Integer telephone,
-                                  @RequestParam("avatar") Integer avatar){
-        JSONObject jsonObject = new JSONObject();
-        UserInfo userInfo = new UserInfo();
+    public JSONObject insertUserInfo(@RequestParam("userCode") String userCode,
+                                  @RequestParam("password") String password,
+                                  @RequestParam("userName") String userName,
+                                  @RequestParam("telephone") String telephone,
+                                  @RequestParam("avatar") String avatar){
+        JSONObject result = new JSONObject();
+        try{
+            UserInfo userInfo = new UserInfo();
+            userInfo.setUserCode(userCode);
+            userInfo.setPassword(password);
+            userInfo.setUserName(userName);
+            userInfo.setTelephone(telephone);
+            userInfo.setAvatar(avatar);
+            int id = userInfoMapper.insert(userInfo);
+            logger.debug("用户ID=>{}",id);
+            result.put("data",id);
+            result.put("status","true");
+            result.put("message","请求成功");
+        }catch (Exception e){
+            logger.error(e.toString());
+            result.put("status","false");
+            result.put("message","请求失败");
+        }
+        return result;
+    }
 
-        jsonObject = (JSONObject) JSONObject.toJSON(userInfo);
-
-        return jsonObject;
+    @ApiOperation(value = "新增用户", notes = "新增用户")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "用户主键", required = true, paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "userCode", value = "用户账号", required = true, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "password", value = "用户密码", required = true, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "userName", value = "用户名称", required = true, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "telephone", value = "手机号码", required = true, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "avatar", value = "用户头像", required = true, paramType = "query", dataType = "String")
+    })
+    @RequestMapping(value="/update",method= RequestMethod.POST)
+    @ResponseBody
+    public JSONObject updateUserInfo(@RequestParam("id") Integer id,
+                                 @RequestParam("userCode") String userCode,
+                                  @RequestParam("password") String password,
+                                  @RequestParam("userName") String userName,
+                                  @RequestParam("telephone") String telephone,
+                                  @RequestParam("avatar") String avatar){
+        JSONObject result = new JSONObject();
+        try{
+            UserInfo userInfo = new UserInfo();
+            userInfo.setId(id);
+            userInfo.setUserCode(userCode);
+            userInfo.setPassword(password);
+            userInfo.setUserName(userName);
+            userInfo.setTelephone(telephone);
+            userInfo.setAvatar(avatar);
+            userInfoMapper.updateByPrimaryKey(userInfo);
+            logger.debug("用户ID=>{}",id);
+            result.put("data",id);
+            result.put("status","true");
+            result.put("message","请求成功");
+        }catch (Exception e){
+            logger.error(e.toString());
+            result.put("status","false");
+            result.put("message","请求失败");
+        }
+        return result;
     }
 
 }
