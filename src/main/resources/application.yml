@@ -48,9 +48,18 @@ pagehelper:
     # 启用合理化，如果pageNum < 1会查询第一页，如果pageNum > pages会查询最后一页
     reasonable: true
 
-#mybatis
+# mybatis
 mybatis:
     # mapper.xml包地址
     mapper-locations: classpath:mapper/*.xml
     # pojo生成包地址
     type-aliases-package: com.wangsw.blog.po
+
+# 应用配置
+resources:
+    # log文件写入地址
+    logdir: logs/
+    # 应用名称
+    appname: blog
+    # 日志打印的基础扫描包
+    basepackage: com.wangsw.blog
