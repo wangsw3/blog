@@ -58,8 +58,8 @@ mybatis:
 # 应用配置
 resources:
     # log文件写入地址
-    logdir: logs/
+    logDir: /data/logs/
     # 应用名称
-    appname: blog
+    appName: blog
     # 日志打印的基础扫描包
-    basepackage: com.wangsw.blog
+    basePackage: com.wangsw.blog
