@@ -37,7 +37,7 @@
   <select id="selectAll" resultMap="TUser">
     select
     <include refid="Base_Column_List" />
-    from user_info
+    from t_user
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >

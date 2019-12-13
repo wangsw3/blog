@@ -91,7 +91,7 @@ public class TUserController {
             user.setStatus(STATUS_Y);
             user.setCreateTime(new Date());
             user.setUpdateTime(new Date());
-            tUserMapper.insert(user);
+            tUserMapper.insertSelective(user);
             logger.debug("用户ID=>{}",user.getId());
             result.put("data",user.getId());
             result.put("status","true");
