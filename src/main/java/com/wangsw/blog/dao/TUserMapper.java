@@ -2,14 +2,21 @@ package com.wangsw.blog.dao;
 
 import com.wangsw.blog.po.TUser;
 
+import java.util.List;
+
 public interface TUserMapper {
+
+    TUser selectByPrimaryKey(Integer id);
+
+    TUser selectByUserName(String userName);
+
+    List<TUser> selectAll();
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(TUser record);
 
     int insertSelective(TUser record);
-
-    TUser selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(TUser record);
 
