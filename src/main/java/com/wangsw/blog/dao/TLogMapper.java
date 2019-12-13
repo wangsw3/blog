@@ -2,6 +2,8 @@ package com.wangsw.blog.dao;
 
 import com.wangsw.blog.po.TLog;
 
+import java.util.List;
+
 public interface TLogMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface TLogMapper {
     int updateByPrimaryKeySelective(TLog record);
 
     int updateByPrimaryKey(TLog record);
+
+    List<TLog> selectAll();
 }
