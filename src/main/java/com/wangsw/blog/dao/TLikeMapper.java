@@ -2,6 +2,8 @@ package com.wangsw.blog.dao;
 
 import com.wangsw.blog.po.TLike;
 
+import java.util.List;
+
 public interface TLikeMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface TLikeMapper {
     int updateByPrimaryKeySelective(TLike record);
 
     int updateByPrimaryKey(TLike record);
+
+    List<TLike> selectAll();
 }

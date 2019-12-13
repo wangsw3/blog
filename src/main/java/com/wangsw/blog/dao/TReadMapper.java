@@ -2,6 +2,8 @@ package com.wangsw.blog.dao;
 
 import com.wangsw.blog.po.TRead;
 
+import java.util.List;
+
 public interface TReadMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface TReadMapper {
     int updateByPrimaryKeySelective(TRead record);
 
     int updateByPrimaryKey(TRead record);
+
+    List<TRead> selectAll();
 }

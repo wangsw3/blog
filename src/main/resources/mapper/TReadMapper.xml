@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wangsw.blog.dao.TReadMapper" >
-  <resultMap id="BaseResultMap" type="com.wangsw.blog.po.TRead" >
+  <resultMap id="TRead" type="com.wangsw.blog.po.TRead" >
     <id column="ID" property="id" jdbcType="INTEGER" />
     <result column="USER_ID" property="userId" jdbcType="INTEGER" />
     <result column="ARTICLE_ID" property="articleId" jdbcType="INTEGER" />
@@ -12,11 +12,16 @@
   <sql id="Base_Column_List" >
     ID, USER_ID, ARTICLE_ID, CREATE_TIME, STATUS, REMARK
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="TRead" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_read
     where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="TRead">
+    select
+    <include refid="Base_Column_List" />
+    from t_read
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_read
