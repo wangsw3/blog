@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wangsw.blog.dao.TQqUserMapper" >
-  <resultMap id="BaseResultMap" type="com.wangsw.blog.po.TQqUser" >
+  <resultMap id="TQqUser" type="com.wangsw.blog.po.TQqUser" >
     <id column="ID" property="id" jdbcType="INTEGER" />
     <result column="OPEN_ID" property="openId" jdbcType="VARCHAR" />
     <result column="NICK_NAME" property="nickName" jdbcType="VARCHAR" />
+    <result column="ROLE_ID" property="roleId" jdbcType="INTEGER" />
     <result column="GENDER" property="gender" jdbcType="INTEGER" />
     <result column="HEADSHOT" property="headshot" jdbcType="VARCHAR" />
     <result column="EMAIL" property="email" jdbcType="VARCHAR" />
@@ -14,14 +15,19 @@
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    ID, OPEN_ID, NICK_NAME, GENDER, HEADSHOT, EMAIL, LASTLOGIN_TIME, CREATE_TIME, STATUS, 
+    ID, OPEN_ID, NICK_NAME, ROLE_ID, GENDER, HEADSHOT, EMAIL, LASTLOGIN_TIME, CREATE_TIME, STATUS,
     REMARK
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="TQqUser" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_qq_user
     where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="TQqUser">
+    select
+    <include refid="Base_Column_List" />
+    from t_qq_user
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_qq_user
@@ -31,11 +37,11 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_qq_user (OPEN_ID, NICK_NAME, GENDER, 
+    insert into t_qq_user (OPEN_ID, NICK_NAME, ROLE_ID, GENDER,
       HEADSHOT, EMAIL, LASTLOGIN_TIME, 
       CREATE_TIME, STATUS, REMARK
       )
-    values (#{openId,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, 
+    values (#{openId,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{roleId,jdbcType=INTEGER}, #{gender,jdbcType=INTEGER},
       #{headshot,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{lastloginTime,jdbcType=TIMESTAMP}, 
       #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
       )
@@ -51,6 +57,9 @@
       </if>
       <if test="nickName != null" >
         NICK_NAME,
+      </if>
+      <if test="roleId != null" >
+        ROLE_ID,
       </if>
       <if test="gender != null" >
         GENDER,
@@ -80,6 +89,9 @@
       </if>
       <if test="nickName != null" >
         #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=INTEGER},
       </if>
       <if test="gender != null" >
         #{gender,jdbcType=INTEGER},
@@ -113,6 +125,9 @@
       <if test="nickName != null" >
         NICK_NAME = #{nickName,jdbcType=VARCHAR},
       </if>
+      <if test="roleId != null" >
+        ROLE_ID = #{roleId,jdbcType=INTEGER},
+      </if>
       <if test="gender != null" >
         GENDER = #{gender,jdbcType=INTEGER},
       </if>
@@ -141,6 +156,7 @@
     update t_qq_user
     set OPEN_ID = #{openId,jdbcType=VARCHAR},
       NICK_NAME = #{nickName,jdbcType=VARCHAR},
+      ROLE_ID = #{roleId,jdbcType=INTEGER},
       GENDER = #{gender,jdbcType=INTEGER},
       HEADSHOT = #{headshot,jdbcType=VARCHAR},
       EMAIL = #{email,jdbcType=VARCHAR},

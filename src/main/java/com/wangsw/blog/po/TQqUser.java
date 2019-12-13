@@ -9,6 +9,8 @@ public class TQqUser {
 
     private String nickName;
 
+    private Integer roleId;
+
     private Integer gender;
 
     private String headshot;
@@ -45,6 +47,14 @@ public class TQqUser {
 
     public void setNickName(String nickName) {
         this.nickName = nickName == null ? null : nickName.trim();
+    }
+
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 
     public Integer getGender() {
