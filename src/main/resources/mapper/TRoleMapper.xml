@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wangsw.blog.dao.TRoleMapper" >
-  <resultMap id="BaseResultMap" type="com.wangsw.blog.po.TRole" >
+  <resultMap id="TRole" type="com.wangsw.blog.po.TRole" >
     <id column="ID" property="id" jdbcType="INTEGER" />
     <result column="ROLE_CODE" property="roleCode" jdbcType="VARCHAR" />
     <result column="ROLE_NAME" property="roleName" jdbcType="VARCHAR" />
@@ -16,11 +16,16 @@
     ID, ROLE_CODE, ROLE_NAME, CREATE_BY, UPDATE_BY, CREATE_TIME, UPDATE_TIME, STATUS, 
     REMARK
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="TRole" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_role
     where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="TRole">
+    select
+    <include refid="Base_Column_List" />
+    from t_role
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_role

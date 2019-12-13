@@ -2,6 +2,8 @@ package com.wangsw.blog.dao;
 
 import com.wangsw.blog.po.TRole;
 
+import java.util.List;
+
 public interface TRoleMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface TRoleMapper {
     int updateByPrimaryKeySelective(TRole record);
 
     int updateByPrimaryKey(TRole record);
+
+    List<TRole> selectAll();
 }

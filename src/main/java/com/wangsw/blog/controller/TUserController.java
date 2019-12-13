@@ -33,9 +33,6 @@ public class TUserController {
     Logger logger = LoggerFactory.getLogger(TUserController.class);
 
     @ApiOperation(value = "查询用户", notes = "查询用户")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "用户标识", required = true, paramType = "query", dataType = "Integer")
-    })
     @RequestMapping(value="/get/id",method= RequestMethod.GET)
     @ResponseBody
     public JSONObject getById(@RequestParam("id") Integer id){
@@ -82,7 +79,6 @@ public class TUserController {
     }
 
     @ApiOperation(value = "新增用户", notes = "新增用户")
-    @ApiImplicitParams({@ApiImplicitParam(name = "user", value = "用户信息JSON串", required = true)})
     @RequestMapping(value="/insert",method= RequestMethod.POST)
     @ResponseBody
     public JSONObject insert(@RequestBody TUser user){
@@ -105,7 +101,6 @@ public class TUserController {
     }
 
     @ApiOperation(value = "更新用户", notes = "更新用户")
-    @ApiImplicitParams({@ApiImplicitParam(name = "user", value = "用户信息JSON串", required = true)})
     @RequestMapping(value="/update",method= RequestMethod.POST)
     @ResponseBody
     public JSONObject update(@RequestBody TUser user){
