@@ -19,7 +19,7 @@
     <result column="STATUS" property="status" jdbcType="INTEGER" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.wangsw.blog.po.TArticle" extends="BaseResultMap" >
+  <resultMap id="TArticle" type="com.wangsw.blog.po.TArticle" extends="BaseResultMap" >
     <result column="CONTENT" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
@@ -29,13 +29,20 @@
   <sql id="Blob_Column_List" >
     CONTENT
   </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="TArticle" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from t_article
     where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="TArticle">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_article
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_article
