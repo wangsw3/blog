@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wangsw.blog.dao.TArticleTypeMapper" >
-  <resultMap id="BaseResultMap" type="com.wangsw.blog.po.TArticleType" >
+  <resultMap id="TArticleType" type="com.wangsw.blog.po.TArticleType" >
     <id column="ID" property="id" jdbcType="INTEGER" />
     <result column="TYPE_NAME" property="typeName" jdbcType="VARCHAR" />
     <result column="CREATE_BY" property="createBy" jdbcType="INTEGER" />
@@ -14,11 +14,16 @@
   <sql id="Base_Column_List" >
     ID, TYPE_NAME, CREATE_BY, UPDATE_BY, CREATE_TIME, UPDATE_TIME, STATUS, REMARK
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="TArticleType" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_article_type
     where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="TArticleType">
+    select
+    <include refid="Base_Column_List" />
+    from t_article_type
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_article_type

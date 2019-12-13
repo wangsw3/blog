@@ -2,6 +2,8 @@ package com.wangsw.blog.dao;
 
 import com.wangsw.blog.po.TArticleClass;
 
+import java.util.List;
+
 public interface TArticleClassMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface TArticleClassMapper {
     int updateByPrimaryKeySelective(TArticleClass record);
 
     int updateByPrimaryKey(TArticleClass record);
+
+    List<TArticleClass> selectAll();
 }
