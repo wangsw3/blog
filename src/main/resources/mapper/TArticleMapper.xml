@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wangsw.blog.dao.TArticleMapper" >
+  <resultMap id="BaseResultMap" type="com.wangsw.blog.po.TArticle" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="ZHAIYAO" property="zhaiyao" jdbcType="VARCHAR" />
+    <result column="IMG_URL" property="imgUrl" jdbcType="VARCHAR" />
+    <result column="TYPE_ID" property="typeId" jdbcType="INTEGER" />
+    <result column="CLASS_ID" property="classId" jdbcType="INTEGER" />
+    <result column="DING" property="ding" jdbcType="INTEGER" />
+    <result column="LIKE_NUM" property="likeNum" jdbcType="INTEGER" />
+    <result column="READ_NUM" property="readNum" jdbcType="INTEGER" />
+    <result column="COMMENT_NUM" property="commentNum" jdbcType="INTEGER" />
+    <result column="CREATE_BY" property="createBy" jdbcType="INTEGER" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="INTEGER" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.wangsw.blog.po.TArticle" extends="BaseResultMap" >
+    <result column="CONTENT" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, TITLE, ZHAIYAO, IMG_URL, TYPE_ID, CLASS_ID, DING, LIKE_NUM, READ_NUM, COMMENT_NUM, 
+    CREATE_BY, UPDATE_BY, CREATE_TIME, UPDATE_TIME, STATUS, REMARK
+  </sql>
+  <sql id="Blob_Column_List" >
+    CONTENT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_article
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_article
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wangsw.blog.po.TArticle" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_article (TITLE, ZHAIYAO, IMG_URL, 
+      TYPE_ID, CLASS_ID, DING, 
+      LIKE_NUM, READ_NUM, COMMENT_NUM, 
+      CREATE_BY, UPDATE_BY, CREATE_TIME, 
+      UPDATE_TIME, STATUS, REMARK, 
+      CONTENT)
+    values (#{title,jdbcType=VARCHAR}, #{zhaiyao,jdbcType=VARCHAR}, #{imgUrl,jdbcType=VARCHAR}, 
+      #{typeId,jdbcType=INTEGER}, #{classId,jdbcType=INTEGER}, #{ding,jdbcType=INTEGER}, 
+      #{likeNum,jdbcType=INTEGER}, #{readNum,jdbcType=INTEGER}, #{commentNum,jdbcType=INTEGER}, 
+      #{createBy,jdbcType=INTEGER}, #{updateBy,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wangsw.blog.po.TArticle" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_article
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="zhaiyao != null" >
+        ZHAIYAO,
+      </if>
+      <if test="imgUrl != null" >
+        IMG_URL,
+      </if>
+      <if test="typeId != null" >
+        TYPE_ID,
+      </if>
+      <if test="classId != null" >
+        CLASS_ID,
+      </if>
+      <if test="ding != null" >
+        DING,
+      </if>
+      <if test="likeNum != null" >
+        LIKE_NUM,
+      </if>
+      <if test="readNum != null" >
+        READ_NUM,
+      </if>
+      <if test="commentNum != null" >
+        COMMENT_NUM,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="zhaiyao != null" >
+        #{zhaiyao,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrl != null" >
+        #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="classId != null" >
+        #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="ding != null" >
+        #{ding,jdbcType=INTEGER},
+      </if>
+      <if test="likeNum != null" >
+        #{likeNum,jdbcType=INTEGER},
+      </if>
+      <if test="readNum != null" >
+        #{readNum,jdbcType=INTEGER},
+      </if>
+      <if test="commentNum != null" >
+        #{commentNum,jdbcType=INTEGER},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wangsw.blog.po.TArticle" >
+    update t_article
+    <set >
+      <if test="title != null" >
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="zhaiyao != null" >
+        ZHAIYAO = #{zhaiyao,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrl != null" >
+        IMG_URL = #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null" >
+        TYPE_ID = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="classId != null" >
+        CLASS_ID = #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="ding != null" >
+        DING = #{ding,jdbcType=INTEGER},
+      </if>
+      <if test="likeNum != null" >
+        LIKE_NUM = #{likeNum,jdbcType=INTEGER},
+      </if>
+      <if test="readNum != null" >
+        READ_NUM = #{readNum,jdbcType=INTEGER},
+      </if>
+      <if test="commentNum != null" >
+        COMMENT_NUM = #{commentNum,jdbcType=INTEGER},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.wangsw.blog.po.TArticle" >
+    update t_article
+    set TITLE = #{title,jdbcType=VARCHAR},
+      ZHAIYAO = #{zhaiyao,jdbcType=VARCHAR},
+      IMG_URL = #{imgUrl,jdbcType=VARCHAR},
+      TYPE_ID = #{typeId,jdbcType=INTEGER},
+      CLASS_ID = #{classId,jdbcType=INTEGER},
+      DING = #{ding,jdbcType=INTEGER},
+      LIKE_NUM = #{likeNum,jdbcType=INTEGER},
+      READ_NUM = #{readNum,jdbcType=INTEGER},
+      COMMENT_NUM = #{commentNum,jdbcType=INTEGER},
+      CREATE_BY = #{createBy,jdbcType=INTEGER},
+      UPDATE_BY = #{updateBy,jdbcType=INTEGER},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=INTEGER},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=LONGVARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wangsw.blog.po.TArticle" >
+    update t_article
+    set TITLE = #{title,jdbcType=VARCHAR},
+      ZHAIYAO = #{zhaiyao,jdbcType=VARCHAR},
+      IMG_URL = #{imgUrl,jdbcType=VARCHAR},
+      TYPE_ID = #{typeId,jdbcType=INTEGER},
+      CLASS_ID = #{classId,jdbcType=INTEGER},
+      DING = #{ding,jdbcType=INTEGER},
+      LIKE_NUM = #{likeNum,jdbcType=INTEGER},
+      READ_NUM = #{readNum,jdbcType=INTEGER},
+      COMMENT_NUM = #{commentNum,jdbcType=INTEGER},
+      CREATE_BY = #{createBy,jdbcType=INTEGER},
+      UPDATE_BY = #{updateBy,jdbcType=INTEGER},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=INTEGER},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

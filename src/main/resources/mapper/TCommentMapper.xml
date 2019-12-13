@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wangsw.blog.dao.TCommentMapper" >
+  <resultMap id="BaseResultMap" type="com.wangsw.blog.po.TComment" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="SEND_ID" property="sendId" jdbcType="INTEGER" />
+    <result column="ACCEPT_ID" property="acceptId" jdbcType="INTEGER" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="ARTICLE_ID" property="articleId" jdbcType="INTEGER" />
+    <result column="PARENT_ID" property="parentId" jdbcType="INTEGER" />
+    <result column="CITY" property="city" jdbcType="VARCHAR" />
+    <result column="BROWSER" property="browser" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, SEND_ID, ACCEPT_ID, CONTENT, ARTICLE_ID, PARENT_ID, CITY, BROWSER, CREATE_TIME, 
+    STATUS, REMARK
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_comment
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_comment
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wangsw.blog.po.TComment" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_comment (SEND_ID, ACCEPT_ID, CONTENT, 
+      ARTICLE_ID, PARENT_ID, CITY, 
+      BROWSER, CREATE_TIME, STATUS, 
+      REMARK)
+    values (#{sendId,jdbcType=INTEGER}, #{acceptId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
+      #{articleId,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, #{city,jdbcType=VARCHAR}, 
+      #{browser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wangsw.blog.po.TComment" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sendId != null" >
+        SEND_ID,
+      </if>
+      <if test="acceptId != null" >
+        ACCEPT_ID,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="articleId != null" >
+        ARTICLE_ID,
+      </if>
+      <if test="parentId != null" >
+        PARENT_ID,
+      </if>
+      <if test="city != null" >
+        CITY,
+      </if>
+      <if test="browser != null" >
+        BROWSER,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sendId != null" >
+        #{sendId,jdbcType=INTEGER},
+      </if>
+      <if test="acceptId != null" >
+        #{acceptId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="articleId != null" >
+        #{articleId,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="browser != null" >
+        #{browser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wangsw.blog.po.TComment" >
+    update t_comment
+    <set >
+      <if test="sendId != null" >
+        SEND_ID = #{sendId,jdbcType=INTEGER},
+      </if>
+      <if test="acceptId != null" >
+        ACCEPT_ID = #{acceptId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="articleId != null" >
+        ARTICLE_ID = #{articleId,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        PARENT_ID = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="city != null" >
+        CITY = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="browser != null" >
+        BROWSER = #{browser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wangsw.blog.po.TComment" >
+    update t_comment
+    set SEND_ID = #{sendId,jdbcType=INTEGER},
+      ACCEPT_ID = #{acceptId,jdbcType=INTEGER},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      ARTICLE_ID = #{articleId,jdbcType=INTEGER},
+      PARENT_ID = #{parentId,jdbcType=INTEGER},
+      CITY = #{city,jdbcType=VARCHAR},
+      BROWSER = #{browser,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=INTEGER},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
