@@ -1,80 +1,31 @@
-<!DOCTYPE html>
-<html>
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
 <head>
-    <meta charset="utf-8">
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="Window-target" content="_top">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <!-- InstanceBeginEditable name="doctitle" -->
-    <title>Q-Blog 首页</title>
-    <!-- InstanceEndEditable -->
-    <meta name="Author" contect="wangsw">
-	<meta name="Copyright" content="Blog">
-	<meta name="keywords" content="个人博客,Blog" />
-	<meta name="description" content="Blog，一个程序员的个人博客，记录博主学习和成长之路，分享技术和源码。" />
-	<meta property="og:title" content="Blog" />
-	<meta property="og:title" content="Blog 网站首页" />
-	<meta property="og:type" content="个人博客" />
-	<meta property="og:url" content="" />
-	<meta property="og:image" content="" />
-	<meta property="og:site_name" content="" />
-	<meta property="og:description" content="Blog，一个程序员的个人博客，记录博主学习和成长之路，分享技术和源码。" />
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-	<link href="css/loading.css" rel="stylesheet" />
-	<link href="css/scroll-bar.css" rel="stylesheet" />
-	<link href="Eextend/layui/css/layui.css" rel="stylesheet" media="all" />
-	<link href="css/common.css" rel="stylesheet" />
-	<link href="css/suspension.css" rel="stylesheet" />
-	<link href="css/animate.css" rel="stylesheet" />
-	<link href="Eextend/iconfont/iconfont.css" rel="stylesheet" />
-	<script src="Eextend/iconfont/iconfont.js"></script>
-	<script src="js/jquery.min.js"></script>
-	<script src="Eextend/layui/layui.js"></script>
-	<script src="js/wow.min.js"></script>
-    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
-    <!--[if lt IE 9]-->
-      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+	<meta charset="utf-8">
+	<title>网站首页</title>
+	<!-- 公共css,js -->
+	<th:block th:include="layout/Global :: head"></th:block>
 </head>
 <body>
-    <header>
-        <nav>
-            <!-- 汉堡菜单 -->
-          <input type="checkbox" id="togglebox" />
-            <ul>
-                <li><a href="Index.html">网站首页</a></li>
-                <li><a href="Article.html">学无止境</a></li>
-                <li><a href="Archive.html">文章归档</a></li>
-                <li><a href="Moments.html">瞬时说说</a></li>
-                <li><a href="Resources.html">资源分享</a></li>
-                <li><a href="About.html">关于本站</a></li>
-            </ul>
-          <label class="menu" for="togglebox">
-                <i class="layui-icon layui-extend-hamburg-menu"></i>
-            </label>
-        </nav>
-        <div class="clearfix"></div>
-    </header>
-
+	<!-- 页头 -->
+	<div th:replace="layout/Global :: header"></div>
+	<!-- 主体 -->
 	<section class="bg-overlay layui-hide">
-        <div class="overlay"></div>
-        <div class="layui-row text py-5">
-            <p class="lead">Keep on going never give up.</p>
-            <h1>
-                我为你翻山越岭，却无心看风景
-            </h1>
-            <a href="#welcome" class="layui-btn layui-btn-normal layui-btn-radius layui-btn-lg">Let's Go</a>
-        </div>
-    </section>
-
-    <section class="container">
+		<div class="overlay"></div>
+		<div class="layui-row text py-5">
+			<p class="lead">Keep on going never give up.</p>
+			<h1>
+				我为你翻山越岭，却无心看风景
+			</h1>
+			<a href="#welcome" class="layui-btn layui-btn-normal layui-btn-radius layui-btn-lg">Let's Go</a>
+		</div>
+	</section>
+	<section class="container">
 		<!-- InstanceBeginEditable name="EditRegion1" -->
-			
+
 		<!-- 首页样式 -->
 		<link href="css/Index.css" rel="stylesheet" />
-		
+
 		<div id="welcome" class="target-fix"></div>
 		<div class="about">
 			<div class="row-container">
@@ -85,7 +36,7 @@
 				</div>
 			</div>
 		</div>
-	
+
 		<div class="blog">
 			<div class="row-container wow fadeInUp">
 				<div class="layui-row">
@@ -271,66 +222,66 @@
 				<div class="swiper-pagination"></div>
 			</div>
 		</div>
-		
-<!--	留言样式风格二，自适应效果不同，喜欢哪种自选	-->
-<!--
-		<div class="new-comment">
-			<div class="row-container">
-				<h3 class="tittle-wthree text-center">最近留言</h3>
-				<div class="layui-row layui-col-space25">
-					<div class="layui-col-md4 layui-col-xs12">
-						<div class="testimonials-gd-vj">
-							<p class="sub-test">
-								<i class="layui-icon layui-extend-quotation"></i>
-								有时候，耳朵比眼睛还重要，很多东西用耳朵听比用眼睛看好，一个人假装开心，但声音就装不了。细心一听就知道了。
-							</p>
-							<div class="layui-row user">
-								<a href="#" target="_blank" rel="nofollow">
-									<div class="layui-col-xs12">
-										<img class="layui-circle" src="images/nan.png" alt="">
-										<h5>付子博</h5>
-									</div>
-								</a>
-							</div>
-						</div>
-					</div>
-					<div class="layui-col-md4 layui-col-xs12">
-						<div class="testimonials-gd-vj">
-							<p class="sub-test">
-								<i class="layui-icon layui-extend-quotation"></i>
-								有时候，耳朵比眼睛还重要，很多东西用耳朵听比用眼睛看好，一个人假装开心，但声音就装不了。细心一听就知道了。
-							</p>
-							<div class="layui-row user">
-								<a href="#" target="_blank" rel="nofollow">
-									<div class="layui-col-xs12">
-										<img class="layui-circle" src="images/nv.png" alt="">
-										<h5>易sir</h5>
-									</div>
-								</a>
-							</div>
-						</div>
-					</div>
-					<div class="layui-col-md4 layui-col-xs12">
-						<div class="testimonials-gd-vj">
-							<p class="sub-test">
-								<i class="layui-icon layui-extend-quotation"></i>
-								有时候，耳朵比眼睛还重要，很多东西用耳朵听比用眼睛看好，一个人假装开心，但声音就装不了。细心一听就知道了。
-							</p>
-							<div class="layui-row user">
-								<a href="#" target="_blank" rel="nofollow">
-									<div class="layui-col-xs12">
-										<img class="layui-circle" src="images/nan.png" alt="">
-										<h5>钠盐</h5>
-									</div>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-        	</div>      
-    	</div>
--->
-		
+
+		<!--	留言样式风格二，自适应效果不同，喜欢哪种自选	-->
+		<!--
+                <div class="new-comment">
+                    <div class="row-container">
+                        <h3 class="tittle-wthree text-center">最近留言</h3>
+                        <div class="layui-row layui-col-space25">
+                            <div class="layui-col-md4 layui-col-xs12">
+                                <div class="testimonials-gd-vj">
+                                    <p class="sub-test">
+                                        <i class="layui-icon layui-extend-quotation"></i>
+                                        有时候，耳朵比眼睛还重要，很多东西用耳朵听比用眼睛看好，一个人假装开心，但声音就装不了。细心一听就知道了。
+                                    </p>
+                                    <div class="layui-row user">
+                                        <a href="#" target="_blank" rel="nofollow">
+                                            <div class="layui-col-xs12">
+                                                <img class="layui-circle" src="images/nan.png" alt="">
+                                                <h5>付子博</h5>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md4 layui-col-xs12">
+                                <div class="testimonials-gd-vj">
+                                    <p class="sub-test">
+                                        <i class="layui-icon layui-extend-quotation"></i>
+                                        有时候，耳朵比眼睛还重要，很多东西用耳朵听比用眼睛看好，一个人假装开心，但声音就装不了。细心一听就知道了。
+                                    </p>
+                                    <div class="layui-row user">
+                                        <a href="#" target="_blank" rel="nofollow">
+                                            <div class="layui-col-xs12">
+                                                <img class="layui-circle" src="images/nv.png" alt="">
+                                                <h5>易sir</h5>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md4 layui-col-xs12">
+                                <div class="testimonials-gd-vj">
+                                    <p class="sub-test">
+                                        <i class="layui-icon layui-extend-quotation"></i>
+                                        有时候，耳朵比眼睛还重要，很多东西用耳朵听比用眼睛看好，一个人假装开心，但声音就装不了。细心一听就知道了。
+                                    </p>
+                                    <div class="layui-row user">
+                                        <a href="#" target="_blank" rel="nofollow">
+                                            <div class="layui-col-xs12">
+                                                <img class="layui-circle" src="images/nan.png" alt="">
+                                                <h5>钠盐</h5>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        -->
+
 		<div id="statistics" class="bg-overlay">
 			<div class="overlay"></div>
 			<div class="row-container wow slideInLeft">
@@ -504,36 +455,20 @@
 				<div class="swiper-pagination"></div>
 			</div>
 		</div>
-		
+
 		<!-- Swiper CSS And JS -->
 		<link href="Eextend/Swiper-4.5.0/css/swiper.min.css" rel="stylesheet" />
 		<script src="Eextend/Swiper-4.5.0/js/swiper.min.js"></script>
 		<!-- Running JS -->
 		<script src="js/jquery.running.min.js"></script>
 		<script src="js/Index.js"></script>
-		<!-- InstanceEndEditable -->    
-    </section>
 
-   	<footer>
-     <p><a href="">Copyright &copy; 2019. Blog All rights reserved.</a></p>
-    </footer>
 
-    <div id="suspension">
-        <div class="livechat-girl animated">
-          <img class="girl" src="images/a.png" oncontextmenu="return false;" ondragstart="return false;">
-            <div class="livechat-hint rd-notice-tooltip rd-notice-type-success rd-notice-position-left single-line show_hint">
-                <div class="rd-notice-content">嘿，来试试登录吧！</div>
-            </div>
-            <div class="animated-circles">
-                <div class="circle c-1"></div>
-                <div class="circle c-2"></div>
-                <div class="circle c-3"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 打字机特效js-->
-	<script src="js/typewriter-special-effects.js"></script>
-	<script src="js/Template.js"></script>
+		<!-- InstanceEndEditable -->
+	</section>
+	<!-- 页脚 -->
+	<div th:replace="layout/Global :: footer"></div>
+	<!-- 登录 -->
+	<div th:replace="layout/Global :: login"></div>
 </body>
 </html>

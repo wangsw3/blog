@@ -1,0 +1,18 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+	<meta charset="utf-8">
+	<!-- 公共css,js -->
+	<th:block th:include="layout/Global :: head"></th:block>
+</head>
+<body>
+	<!-- 页头 -->
+	<div th:replace="layout/Global :: header"></div>
+	<!-- 主体 -->
+	
+	<!-- 页脚 -->
+	<div th:replace="layout/Global :: footer"></div>
+	<!-- 登录 -->
+	<div th:replace="layout/Global :: login"></div>
+</body>
+</html>
