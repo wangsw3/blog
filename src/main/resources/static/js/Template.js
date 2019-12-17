@@ -31,11 +31,11 @@ layui.use(['element', 'laypage', 'form', 'util', 'layer', 'flow','table','layedi
                         anim: 4,                 
                         tab: [{
                             title: '微信',
-                            content: '<img src="images/zsm.jpg" style="width:255px;" oncontextmenu="return false;" ondragstart="return false;" />',
+                            content: '<img src="" style="width:255px;" oncontextmenu="return false;" ondragstart="return false;" />',
                         },
                         {
                             title: '支付宝',
-                            content: '<img src="images/zfb.jpg" style="width:255px;" oncontextmenu="return false;" ondragstart="return false;" />',
+                            content: '<img src="" style="width:255px;" oncontextmenu="return false;" ondragstart="return false;" />',
                         }],
                         success: function (layero, index) {
                             $("#" + layero[0].id + " .layui-layer-content").css("overflow", "hidden");
