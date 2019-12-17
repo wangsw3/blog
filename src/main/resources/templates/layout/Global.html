@@ -23,7 +23,7 @@
 	<meta property="og:image" content="" />
 	<meta property="og:site_name" content="" />
 	<meta property="og:description" content="Blog，一个程序员的个人博客，记录博主学习和成长之路，分享技术和源码。" />
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
 	<link href="css/loading.css" rel="stylesheet" />
 	<link href="css/scroll-bar.css" rel="stylesheet" />
 	<link href="Eextend/layui/css/layui.css" rel="stylesheet" media="all" />
@@ -40,10 +40,22 @@
 	<script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
 	<script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
 	<![endif]-->
-	<!-- 打字机特效js-->
-	<script src="js/typewriter-special-effects.js"></script>
 	<script src="js/Template.js"></script>
 </head>
+
+<!-- 加载ing -->
+<div th:fragment="loading" >
+	<div id="loading">
+		<div id="loading-center">
+			<div id="loading-center-absolute">
+				<div class="object" id="object_four"></div>
+				<div class="object" id="object_three"></div>
+				<div class="object" id="object_two"></div>
+				<div class="object" id="object_one"></div>
+			</div>
+		</div>
+	</div>
+</div>
 
 <!-- 页头-->
 <header th:fragment="header">

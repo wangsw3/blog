@@ -7,6 +7,8 @@
 	<th:block th:include="layout/Global :: head"></th:block>
 </head>
 <body>
+	<!-- 加载ing -->
+	<div th:replace="layout/Global :: loading"></div>
 	<!-- 页头 -->
 	<div th:replace="layout/Global :: header"></div>
 	<!-- 主体 -->
@@ -40,7 +42,7 @@
 					<ul class="blog-comment">
 						<li>
 							<div class="comment-parent">
-								<a href="http://www.qbl.link"><img src="images/nan.png" alt="" /></a>
+								<a href=""><img src="images/nan.png" alt="" /></a>
 								<div class="info">
 									<span class="username"><a href="http://www.qbl.link">Lonely</a></span>
 									<span class="layui-badge layui-bg-orange">博主</span>

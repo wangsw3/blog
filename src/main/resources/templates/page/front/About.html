@@ -7,6 +7,8 @@
 	<th:block th:include="layout/Global :: head"></th:block>
 </head>
 <body>
+	<!-- 加载ing -->
+	<div th:replace="layout/Global :: loading"></div>
 	<!-- 页头 -->
 	<div th:replace="layout/Global :: header"></div>
 	<!-- 主体 -->
@@ -33,11 +35,11 @@
 						<img class="layui-anim layui-anim-rotate" src="images/favicon.ico" alt="img" oncontextmenu="return false;" ondragstart="return false;" />
 						<h1 class="site-name wow lightSpeedIn">Q-Blog</h1>
 						<p class="site-describe wow slideInLeft">
-							一个.NET程序员的个人博客，记录博主学习和成长之路，分享.NET方面技术和源码
+							一个程序员的个人博客，记录博主学习和成长之路，分享技术和源码
 						</p>
 						<p class="site-link text-center wow bounceInRight">
 							<i class="layui-icon layui-icon-link"></i>
-							<a href="http://www.qbl.link">www.qbl.link</a>
+							<a href=""></a>
 						</p>
 					</div>
 				</div>
