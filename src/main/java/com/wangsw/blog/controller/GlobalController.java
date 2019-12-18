@@ -13,16 +13,16 @@ public class GlobalController {
     /*
     * 默认加载页
     * */
-    @RequestMapping({"/", "/Index"})
+    @RequestMapping("/Index")
     public String toIndex(){
-        return "page/front/Index";
+        return "/page/front/Index";
     }
 
     /*
    * 地址转发
    * */
-    @RequestMapping("{module}")
+    @RequestMapping("/front/{module}")
     public String toModulePage(@PathVariable String module){
-        return "page/front/"+module;
+        return "/page/front/"+module;
     }
 }

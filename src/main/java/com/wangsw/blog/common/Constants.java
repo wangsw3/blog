@@ -20,4 +20,6 @@ public class Constants {
     public static final String TIME_YEAR = "年";
     public static final String TIME_MONTH = "月";
     public static final String TIME_DAY = "日 ";
+
+    public static final String SESSION_USER = "sessionUser";
 }

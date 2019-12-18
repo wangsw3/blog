@@ -33,11 +33,21 @@ public class Result {
         this.data = data;
     }
 
+    public Result() {
+        super();
+    }
+
+    public Result(String status, String message) {
+        this.status = status;
+        this.message = message;
+    }
+
     public Result(String status, String message, String data) {
         this.status = status;
         this.message = message;
         this.data = data;
     }
+
 
     public String toString() {
         return "{\"status\":\""+ this.status +"\",\"message\":\"" +this.message+ "\",\"data\":\"" +this.data+ "\"}";
