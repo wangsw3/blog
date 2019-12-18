@@ -108,9 +108,26 @@ layui.use(['element', 'laypage', 'form', 'util', 'layer', 'flow','table','layedi
         }
         //登录事件
         function login() {
-			layer.msg("登录成功！");
-			setStyle(true);
+            $.post("/IsLogin", {}, function (response) {
+                console.log(response);
+                console.log(response.data);
+                if (response.data === false) {
+                    //window.location.href = "/toLogin?urls=" + window.location.href;
+                    setStyle(true);
+                }
+            })
         }
+
+        // 获取用户信息
+       /* $(function () {
+            $.post("/userInfo", {}, function (response) {
+                if (response.code === 10000) {
+                    $('.girl').attr("src", response.data.avatar).css("border-radius", "50px");
+                    $('.rd-notice-content').text('欢迎您，' + response.data.nickname + "!");
+                    $('.livechat-girl').css({ right: "0px", bottom: "80px" });
+                }
+            })
+        })*/
 
     }
     catch (e) {
@@ -119,6 +136,7 @@ layui.use(['element', 'laypage', 'form', 'util', 'layer', 'flow','table','layedi
 });
 
 //百度统计
+/*
 var _hmt = _hmt || [];
 (function () {
     var hm = document.createElement("script");
@@ -126,4 +144,5 @@ var _hmt = _hmt || [];
     var s = document.getElementsByTagName("script")[0];
     s.parentNode.insertBefore(hm, s);
 })();
+*/
 
