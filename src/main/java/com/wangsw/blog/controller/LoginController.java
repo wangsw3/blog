@@ -72,7 +72,8 @@ public class LoginController{
 
             //用户信息存入session
             subject.getSession().setAttribute(user.getUserName(), tUserMapper.selectByUserName(user.getUserName()));
-            SecurityUtils.getSubject().getSession().setAttribute(user.getUserName(), tUserMapper.selectByUserName(user.getUserName()));
+            user = tUserMapper.selectByUserName(user.getUserName());
+            SecurityUtils.getSubject().getSession().setAttribute(user.getUserName(), user);
             SecurityUtils.getSubject().getSession().setTimeout(Constants.TIME_OUT);
 
             //记录日志
