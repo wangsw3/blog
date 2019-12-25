@@ -96,24 +96,33 @@ layui.use(['element', 'laypage', 'form', 'util', 'layer', 'flow','table','layedi
         //设置样式
         function setStyle(flag) {
             if (!flag) { //未登录
-                $('.girl').attr("src", "images/a.png").css("border-radius", "0px");
+                $('.girl').attr("src", "../images/a.png").css("border-radius", "0px");
                 $('.livechat-girl').css({ right: "-35px", bottom: "75px" }).removeClass("red-dot");
                 $('.rd-notice-content').text('嘿，来试试登录吧！');
                 return;
             }
             clearInterval(anim);
-			$('.girl').attr("src", "images/nan.png").css("border-radius", "50px");
+			$('.girl').attr("src", "../images/nan.png").css("border-radius", "50px");
 			$('.rd-notice-content').text('欢迎您，渣渣辉！');
 			$('.livechat-girl').css({ right: "0px", bottom: "80px" });	
         }
         //登录事件
         function login() {
-            $.post("/IsLogin", {}, function (response) {
-                console.log(response);
-                console.log(response.data);
-                if (response.data === false) {
-                    //window.location.href = "/toLogin?urls=" + window.location.href;
-                    setStyle(true);
+            $.ajax({
+                type: 'post',
+                dataTtpe: 'json',
+                contentType: 'application/json',
+                url:'/IsLogin',
+                data: JSON.stringify({"password": "123456","userName": "wangsw"}),
+                success: function (response) {
+                    console.log(response);
+                    if (response.data === 'false') {
+                        //window.location.href = "/toLogin?urls=" + window.location.href;
+                        setStyle(true);
+                    }
+                },
+                error: function (response) {
+
                 }
             })
         }
