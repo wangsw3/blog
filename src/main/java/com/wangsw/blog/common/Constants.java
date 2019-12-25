@@ -23,4 +23,11 @@ public class Constants {
 
     //SESSION默认时间5分钟
     public static final long TIME_OUT = 300000;
+
+    /** 登录 */
+    public static final String LOGIN = "LOGIN";
+
+    /** 登出 */
+    public static final String LOGOUT = "LOGOUT";
+
 }

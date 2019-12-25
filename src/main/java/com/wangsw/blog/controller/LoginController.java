@@ -2,7 +2,9 @@ package com.wangsw.blog.controller;
 
 import com.wangsw.blog.common.Constants;
 import com.wangsw.blog.common.Result;
+import com.wangsw.blog.dao.TLogMapper;
 import com.wangsw.blog.dao.TUserMapper;
+import com.wangsw.blog.po.TLog;
 import com.wangsw.blog.po.TUser;
 import com.wangsw.blog.utils.AES128;
 import io.swagger.annotations.ApiOperation;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
+import static com.wangsw.blog.common.Constants.STATUS_Y;
+
 /**
  * Created by wangsw on 2019/12/16.
  */
@@ -28,6 +32,9 @@ public class LoginController{
 
     @Autowired
     private TUserMapper tUserMapper;
+
+    @Autowired
+    private TLogMapper tLogMapper;
 
     @ApiOperation(value = "是否登录", notes = "是否登录")
     @RequestMapping(value="/IsLogin",method= RequestMethod.POST)
@@ -58,13 +65,27 @@ public class LoginController{
     @ResponseBody
     public Result Login(@RequestBody TUser user){
         try {
-            // shiro认证
+            //shiro认证
             Subject subject = SecurityUtils.getSubject();
             UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(), AES128.Encrypt(user.getPassword()));
             subject.login(token);
+
+            //用户信息存入session
             subject.getSession().setAttribute(user.getUserName(), tUserMapper.selectByUserName(user.getUserName()));
             SecurityUtils.getSubject().getSession().setAttribute(user.getUserName(), tUserMapper.selectByUserName(user.getUserName()));
             SecurityUtils.getSubject().getSession().setTimeout(Constants.TIME_OUT);
+
+            //记录日志
+            TLog tLog = new TLog();
+            tLog.setLogType(Constants.LOGIN);
+            tLog.setUserId(user.getId());
+            tLog.setDescription("登录");
+            tLog.setIpAddress(user.getIp());
+            tLog.setAddressName(user.getAddress());
+            tLog.setCreateTime(new Date());
+            tLog.setStatus(STATUS_Y);
+            tLogMapper.insertSelective(tLog);
+
         } catch (UnknownAccountException e) {
             logger.debug("用户:"+user.getUserName()+"账号或密码错误", e.toString());
             return new Result("0","账号或密码错误");
@@ -73,7 +94,6 @@ public class LoginController{
             return new Result("0","登录失败");
         }
         logger.debug("用户:"+user.getUserName()+"登录成功");
-        //获取
         return new Result("1","登录成功");
     }
 
@@ -83,7 +103,18 @@ public class LoginController{
     public Result Logout(@RequestBody TUser user){
         SecurityUtils.getSubject().getSession().removeAttribute(user.getUserName());
         logger.debug("用户:"+user.getUserName()+"登出成功");
-        //获取
+
+        //记录日志
+        TLog tLog = new TLog();
+        tLog.setLogType(Constants.LOGOUT);
+        tLog.setUserId(user.getId());
+        tLog.setDescription("登出");
+        tLog.setIpAddress(user.getIp());
+        tLog.setAddressName(user.getAddress());
+        tLog.setCreateTime(new Date());
+        tLog.setStatus(STATUS_Y);
+        tLogMapper.insertSelective(tLog);
+
         return new Result("1","登出成功");
     }
 
