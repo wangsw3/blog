@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+
 /**
  * Created by wangsw on 2019/12/16.
  */
@@ -28,17 +30,26 @@ public class LoginController{
     private TUserMapper tUserMapper;
 
     @ApiOperation(value = "是否登录", notes = "是否登录")
-    @RequestMapping(value="/IsLogin",method= RequestMethod.GET)
+    @RequestMapping(value="/IsLogin",method= RequestMethod.POST)
     @ResponseBody
-    public Result isLogin(){
+    public Result isLogin(@RequestBody TUser user){
         String data = "false";
-        if (SecurityUtils.getSubject().isAuthenticated()) {
-            data = "true";
-            logger.debug("账号已登录");
+        //上次登录时间+设置超时时间
+        long sessionTimeOut = SecurityUtils.getSubject().getSession().getLastAccessTime().getTime()+SecurityUtils.getSubject().getSession().getTimeout();
+        if(sessionTimeOut > new Date().getTime()){
+            //用户已经登录
+            Object curUser = SecurityUtils.getSubject().getSession().getAttribute(user.getUserName());
+            if (null != curUser) {
+                data = "true";
+                logger.debug("用户:"+user.getUserName()+"已登录");
+            }else {
+                data = "false";
+                logger.debug("用户:"+user.getUserName()+"未登录");
+            }
         }else {
-            data = "false";
-            logger.debug("账号未登录");
+            logger.debug("用户:"+user.getUserName()+"登录超时超时");
         }
+
         return new Result("1","请求成功",data);
     }
 
@@ -49,20 +60,31 @@ public class LoginController{
         try {
             // shiro认证
             Subject subject = SecurityUtils.getSubject();
-            //UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(), AES128.Encrypt(user.getPassword()));
-            UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(), user.getPassword());
+            UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(), AES128.Encrypt(user.getPassword()));
             subject.login(token);
-            //subject.getSession().setAttribute(Constants.SESSION_USER, tUserMapper.selectByUserName(user.getUserName()));
-            //session.setAttribute("currentUser", tUserMapper.selectByUserName(user.getUserName()));
+            subject.getSession().setAttribute(user.getUserName(), tUserMapper.selectByUserName(user.getUserName()));
+            SecurityUtils.getSubject().getSession().setAttribute(user.getUserName(), tUserMapper.selectByUserName(user.getUserName()));
+            SecurityUtils.getSubject().getSession().setTimeout(Constants.TIME_OUT);
         } catch (UnknownAccountException e) {
-            logger.debug("登陆失败", e.toString());
-            return new Result("0","账号或密码错误!");
+            logger.debug("用户:"+user.getUserName()+"账号或密码错误", e.toString());
+            return new Result("0","账号或密码错误");
         } catch (Exception e) {
-            logger.debug("登陆失败", e.toString());
-            return new Result("0","登陆失败!");
+            logger.debug("用户:"+user.getUserName()+"登录失败", e.toString());
+            return new Result("0","登录失败");
         }
+        logger.debug("用户:"+user.getUserName()+"登录成功");
         //获取
         return new Result("1","登录成功");
+    }
+
+    @ApiOperation(value = "登出", notes = "登出")
+    @RequestMapping(value="/Logout",method= RequestMethod.POST)
+    @ResponseBody
+    public Result Logout(@RequestBody TUser user){
+        SecurityUtils.getSubject().getSession().removeAttribute(user.getUserName());
+        logger.debug("用户:"+user.getUserName()+"登出成功");
+        //获取
+        return new Result("1","登出成功");
     }
 
 }

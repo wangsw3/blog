@@ -21,5 +21,6 @@ public class Constants {
     public static final String TIME_MONTH = "月";
     public static final String TIME_DAY = "日 ";
 
-    public static final String SESSION_USER = "sessionUser";
+    //SESSION默认时间5分钟
+    public static final long TIME_OUT = 300000;
 }
