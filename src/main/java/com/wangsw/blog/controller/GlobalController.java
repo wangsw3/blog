@@ -13,7 +13,7 @@ public class GlobalController {
     /*
     * 默认加载页
     * */
-    @RequestMapping("/front/Index")
+    @RequestMapping({"/front/Index","/"})
     public String toIndex(){
         return "/page/front/Index";
     }
