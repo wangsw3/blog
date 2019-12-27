@@ -3,6 +3,7 @@ package com.wangsw.blog.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.wangsw.blog.common.Constants;
 import com.wangsw.blog.common.Result;
+import com.wangsw.blog.dao.TLogMapper;
 import com.wangsw.blog.dao.TUserMapper;
 import com.wangsw.blog.po.TLog;
 import com.wangsw.blog.po.TUser;
@@ -34,7 +35,7 @@ public class LoginController{
     private TUserMapper tUserMapper;
 
     @Autowired
-    //private TLogMapper tLogMapper;
+    private TLogMapper tLogMapper;
 
     @ApiOperation(value = "是否登录", notes = "是否登录")
     @RequestMapping(value="/IsLogin",method= RequestMethod.POST)
@@ -92,7 +93,7 @@ public class LoginController{
             tLog.setCity(user.getCity());
             tLog.setCreateTime(new Date());
             tLog.setStatus(STATUS_Y);
-            //tLogMapper.insertSelective(tLog);
+            tLogMapper.insertSelective(tLog);
 
         } catch (UnknownAccountException e) {
             logger.debug("用户:"+user.getUserName()+"账号或密码错误", e.toString());
@@ -122,7 +123,7 @@ public class LoginController{
         tLog.setCity(user.getCity());
         tLog.setCreateTime(new Date());
         tLog.setStatus(STATUS_Y);
-        //tLogMapper.insertSelective(tLog);
+        tLogMapper.insertSelective(tLog);
 
         return new Result("1","登出成功");
     }

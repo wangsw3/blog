@@ -186,34 +186,34 @@ layui.use(['element', 'laypage', 'form', 'util', 'layer', 'flow','table','layedi
 
         //登录事件
        function login(userName,password) {
-            var data = {
-                "userName" : userName,
-                "password" : password,
-                "browser" : browserName,
-                "ip" : ip,
-                "city" : city
-            };
-            $.ajax({
-                type: 'post',
-                dataTtpe: 'json',
-                contentType: 'application/json',
-                url:'/Login',
-                data: JSON.stringify(data),
-                success: function (response) {
-                    console.log(response);
-                    if ("1" == response.status && null != response.data) {
-                        var user = JSON.parse(response.data);
-                        //将用户存入cookie
-                        _setCookie('userName',user.userName,1);
-                        setStyle(true,user);
-                    }else {
-                        layer.msg('登录失败！'+response);
-                    }
-                },
-                error: function (response) {
-                    layer.msg('请求失败！'+response);
-                }
-            })
+           var data = {
+               "userName" : userName,
+               "password" : password,
+               "ip" : ip,
+               "browser" : browserName,
+               "city" : city
+           };
+           $.ajax({
+               type: 'post',
+               dataTtpe: 'json',
+               contentType: 'application/json',
+               url:'/Login',
+               data: JSON.stringify(data),
+               success: function (response) {
+                   console.log(response);
+                   if ("1" == response.status && null != response.data) {
+                       var user = JSON.parse(response.data);
+                       //将用户存入cookie
+                       _setCookie('userName',user.userName,1);
+                       setStyle(true,user);
+                   }else {
+                       layer.msg('登录失败！'+response);
+                   }
+               },
+               error: function (response) {
+                   layer.msg('请求失败！'+response);
+               }
+           })
         }
 
         //登录事件
@@ -274,6 +274,21 @@ layui.use(['element', 'laypage', 'form', 'util', 'layer', 'flow','table','layedi
                 return;
             }
             userInfo(userName);
+
+            $('.ip').text(returnCitySN["cip"]);
+
+            //获取IP和地市
+            $.ajax({
+                url: 'http://api.map.baidu.com/location/ip?ak=ia6HfFL660Bvh43exmH9LrI6',
+                type: 'POST',
+                dataType: 'jsonp',
+                success:function(data) {
+                    console.log(data);
+                    //获取城市
+                    var city = data.content.address_detail.province + data.content.address_detail.city;
+                    $('.city').text(city);
+                }
+            });
         })
     } catch (e) {
         layui.hint().error(e);
@@ -311,20 +326,5 @@ if (userAgent.indexOf("se 2.x") > 0) {
     browserName = "搜狗浏览器";
 }
 
-
-//获取IP和地市
-var ip = "";
-var city = "";
-$.ajax({
-    url: 'http://api.map.baidu.com/location/ip?ak=ia6HfFL660Bvh43exmH9LrI6',
-    type: 'POST',
-    dataType: 'jsonp',
-    success:function(data) {
-        console.log(data);
-        //获取城市
-        ip = returnCitySN["cip"];
-        city = data.content.address_detail.province + data.content.address_detail.city;
-    }
-});
 
 
