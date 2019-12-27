@@ -188,7 +188,10 @@ layui.use(['element', 'laypage', 'form', 'util', 'layer', 'flow','table','layedi
        function login(userName,password) {
             var data = {
                 "userName" : userName,
-                "password" : password
+                "password" : password,
+                "browser" : browserName,
+                "ip" : ip,
+                "city" : city
             };
             $.ajax({
                 type: 'post',
@@ -310,8 +313,8 @@ if (userAgent.indexOf("se 2.x") > 0) {
 
 
 //获取IP和地市
-var cityIp = "";
-var cityName = "";
+var ip = "";
+var city = "";
 $.ajax({
     url: 'http://api.map.baidu.com/location/ip?ak=ia6HfFL660Bvh43exmH9LrI6',
     type: 'POST',
@@ -319,8 +322,8 @@ $.ajax({
     success:function(data) {
         console.log(data);
         //获取城市
-        cityIp = returnCitySN["cip"];
-        cityName = data.content.address_detail.province + data.content.address_detail.city;
+        ip = returnCitySN["cip"];
+        city = data.content.address_detail.province + data.content.address_detail.city;
     }
 });
 

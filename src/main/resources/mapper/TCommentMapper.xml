@@ -8,14 +8,15 @@
     <result column="CONTENT" property="content" jdbcType="VARCHAR" />
     <result column="ARTICLE_ID" property="articleId" jdbcType="INTEGER" />
     <result column="PARENT_ID" property="parentId" jdbcType="INTEGER" />
-    <result column="CITY" property="city" jdbcType="VARCHAR" />
+    <result column="IP" property="ip" jdbcType="VARCHAR" />
     <result column="BROWSER" property="browser" jdbcType="VARCHAR" />
+    <result column="CITY" property="city" jdbcType="VARCHAR" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="STATUS" property="status" jdbcType="INTEGER" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    ID, SEND_ID, ACCEPT_ID, CONTENT, ARTICLE_ID, PARENT_ID, CITY, BROWSER, CREATE_TIME, 
+    ID, SEND_ID, ACCEPT_ID, CONTENT, ARTICLE_ID, PARENT_ID, IP, BROWSER, CITY, CREATE_TIME, 
     STATUS, REMARK
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -33,13 +34,13 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into t_comment (SEND_ID, ACCEPT_ID, CONTENT, 
-      ARTICLE_ID, PARENT_ID, CITY, 
-      BROWSER, CREATE_TIME, STATUS, 
-      REMARK)
+      ARTICLE_ID, PARENT_ID, IP, 
+      BROWSER, CITY, CREATE_TIME, 
+      STATUS, REMARK)
     values (#{sendId,jdbcType=INTEGER}, #{acceptId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
-      #{articleId,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, #{city,jdbcType=VARCHAR}, 
-      #{browser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
-      #{remark,jdbcType=VARCHAR})
+      #{articleId,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, #{ip,jdbcType=VARCHAR}, 
+      #{browser,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wangsw.blog.po.TComment" >
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
@@ -62,11 +63,14 @@
       <if test="parentId != null" >
         PARENT_ID,
       </if>
-      <if test="city != null" >
-        CITY,
+      <if test="ip != null" >
+        IP,
       </if>
       <if test="browser != null" >
         BROWSER,
+      </if>
+      <if test="city != null" >
+        CITY,
       </if>
       <if test="createTime != null" >
         CREATE_TIME,
@@ -94,11 +98,14 @@
       <if test="parentId != null" >
         #{parentId,jdbcType=INTEGER},
       </if>
-      <if test="city != null" >
-        #{city,jdbcType=VARCHAR},
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
       </if>
       <if test="browser != null" >
         #{browser,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
@@ -129,11 +136,14 @@
       <if test="parentId != null" >
         PARENT_ID = #{parentId,jdbcType=INTEGER},
       </if>
-      <if test="city != null" >
-        CITY = #{city,jdbcType=VARCHAR},
+      <if test="ip != null" >
+        IP = #{ip,jdbcType=VARCHAR},
       </if>
       <if test="browser != null" >
         BROWSER = #{browser,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        CITY = #{city,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null" >
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
@@ -154,8 +164,9 @@
       CONTENT = #{content,jdbcType=VARCHAR},
       ARTICLE_ID = #{articleId,jdbcType=INTEGER},
       PARENT_ID = #{parentId,jdbcType=INTEGER},
-      CITY = #{city,jdbcType=VARCHAR},
+      IP = #{ip,jdbcType=VARCHAR},
       BROWSER = #{browser,jdbcType=VARCHAR},
+      CITY = #{city,jdbcType=VARCHAR},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       STATUS = #{status,jdbcType=INTEGER},
       REMARK = #{remark,jdbcType=VARCHAR}

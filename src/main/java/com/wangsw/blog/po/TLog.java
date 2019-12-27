@@ -11,9 +11,11 @@ public class TLog {
 
     private String description;
 
-    private String ipAddress;
+    private String ip;
 
-    private String addressName;
+    private String browser;
+
+    private String city;
 
     private Date createTime;
 
@@ -53,20 +55,28 @@ public class TLog {
         this.description = description == null ? null : description.trim();
     }
 
-    public String getIpAddress() {
-        return ipAddress;
+    public String getIp() {
+        return ip;
     }
 
-    public void setIpAddress(String ipAddress) {
-        this.ipAddress = ipAddress == null ? null : ipAddress.trim();
+    public void setIp(String ip) {
+        this.ip = ip == null ? null : ip.trim();
     }
 
-    public String getAddressName() {
-        return addressName;
+    public String getBrowser() {
+        return browser;
     }
 
-    public void setAddressName(String addressName) {
-        this.addressName = addressName == null ? null : addressName.trim();
+    public void setBrowser(String browser) {
+        this.browser = browser == null ? null : browser.trim();
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city == null ? null : city.trim();
     }
 
     public Date getCreateTime() {

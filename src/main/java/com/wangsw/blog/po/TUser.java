@@ -31,7 +31,9 @@ public class TUser {
 
     private String ip;
 
-    private String address;
+    private String browser;
+
+    private String city;
 
     public Integer getId() {
         return id;
@@ -145,11 +147,19 @@ public class TUser {
         this.ip = ip;
     }
 
-    public String getAddress() {
-        return address;
+    public String getBrowser() {
+        return browser;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setBrowser(String browser) {
+        this.browser = browser;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }

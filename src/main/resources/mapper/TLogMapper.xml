@@ -6,15 +6,15 @@
     <result column="LOG_TYPE" property="logType" jdbcType="VARCHAR" />
     <result column="USER_ID" property="userId" jdbcType="INTEGER" />
     <result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
-    <result column="IP_ADDRESS" property="ipAddress" jdbcType="VARCHAR" />
-    <result column="ADDRESS_NAME" property="addressName" jdbcType="VARCHAR" />
+    <result column="IP" property="ip" jdbcType="VARCHAR" />
+    <result column="BROWSER" property="browser" jdbcType="VARCHAR" />
+    <result column="CITY" property="city" jdbcType="VARCHAR" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="STATUS" property="status" jdbcType="INTEGER" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    ID, LOG_TYPE, USER_ID, DESCRIPTION, IP_ADDRESS, ADDRESS_NAME, CREATE_TIME, STATUS, 
-    REMARK
+    ID, LOG_TYPE, USER_ID, DESCRIPTION, IP, BROWSER, CITY, CREATE_TIME, STATUS, REMARK
   </sql>
   <select id="selectByPrimaryKey" resultMap="TLog" parameterType="java.lang.Integer" >
     select 
@@ -36,11 +36,13 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into t_log (LOG_TYPE, USER_ID, DESCRIPTION, 
-      IP_ADDRESS, ADDRESS_NAME, CREATE_TIME, 
-      STATUS, REMARK)
+      IP, BROWSER, CITY, 
+      CREATE_TIME, STATUS, REMARK
+      )
     values (#{logType,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, 
-      #{ipAddress,jdbcType=VARCHAR}, #{addressName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+      #{ip,jdbcType=VARCHAR}, #{browser,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.wangsw.blog.po.TLog" >
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
@@ -57,11 +59,14 @@
       <if test="description != null" >
         DESCRIPTION,
       </if>
-      <if test="ipAddress != null" >
-        IP_ADDRESS,
+      <if test="ip != null" >
+        IP,
       </if>
-      <if test="addressName != null" >
-        ADDRESS_NAME,
+      <if test="browser != null" >
+        BROWSER,
+      </if>
+      <if test="city != null" >
+        CITY,
       </if>
       <if test="createTime != null" >
         CREATE_TIME,
@@ -83,11 +88,14 @@
       <if test="description != null" >
         #{description,jdbcType=VARCHAR},
       </if>
-      <if test="ipAddress != null" >
-        #{ipAddress,jdbcType=VARCHAR},
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
       </if>
-      <if test="addressName != null" >
-        #{addressName,jdbcType=VARCHAR},
+      <if test="browser != null" >
+        #{browser,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
@@ -112,11 +120,14 @@
       <if test="description != null" >
         DESCRIPTION = #{description,jdbcType=VARCHAR},
       </if>
-      <if test="ipAddress != null" >
-        IP_ADDRESS = #{ipAddress,jdbcType=VARCHAR},
+      <if test="ip != null" >
+        IP = #{ip,jdbcType=VARCHAR},
       </if>
-      <if test="addressName != null" >
-        ADDRESS_NAME = #{addressName,jdbcType=VARCHAR},
+      <if test="browser != null" >
+        BROWSER = #{browser,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        CITY = #{city,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null" >
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
@@ -135,8 +146,9 @@
     set LOG_TYPE = #{logType,jdbcType=VARCHAR},
       USER_ID = #{userId,jdbcType=INTEGER},
       DESCRIPTION = #{description,jdbcType=VARCHAR},
-      IP_ADDRESS = #{ipAddress,jdbcType=VARCHAR},
-      ADDRESS_NAME = #{addressName,jdbcType=VARCHAR},
+      IP = #{ip,jdbcType=VARCHAR},
+      BROWSER = #{browser,jdbcType=VARCHAR},
+      CITY = #{city,jdbcType=VARCHAR},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       STATUS = #{status,jdbcType=INTEGER},
       REMARK = #{remark,jdbcType=VARCHAR}
