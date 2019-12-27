@@ -134,19 +134,18 @@ layui.use(['element', 'laypage', 'form', 'util', 'layer', 'flow','table','layedi
                     console.log(response);
                     if ("1" == response.status && null != response.data) {
                         if (response.data === 'true') {
-                            //window.location.href = "/toLogin?urls=" + window.location.href;
+                            //获取用户信息
                             userInfo(userName);
-                            //setStyle(false);
                         }else {
                             //登录
                             loginPage();
                         }
                     }else {
-                        layer.msg('请求失败！');
+                        layer.msg('请求失败！'+response);
                     }
                 },
                 error: function (response) {
-                    layer.msg('请求失败！');
+                    layer.msg('请求失败！'+response);
                 }
             })
         }
@@ -205,11 +204,11 @@ layui.use(['element', 'laypage', 'form', 'util', 'layer', 'flow','table','layedi
                         _setCookie('userName',user.userName,1);
                         setStyle(true,user);
                     }else {
-                        layer.msg('登录失败！');
+                        layer.msg('登录失败！'+response);
                     }
                 },
                 error: function (response) {
-                    layer.msg('请求失败！');
+                    layer.msg('请求失败！'+response);
                 }
             })
         }
@@ -224,14 +223,13 @@ layui.use(['element', 'laypage', 'form', 'util', 'layer', 'flow','table','layedi
                     console.log(response);
                     if ("1" == response.status && null != response.data) {
                         var user = JSON.parse(response.data);
-                        _setCookie('userName',user.userName,1);
                         setStyle(true,user);
                     }else {
-                        layer.msg('登录失败！');
+                        layer.msg('请求失败！'+response);
                     }
                 },
                 error: function (response) {
-                    layer.msg('请求失败！');
+                    layer.msg('请求失败！'+response);
                 }
             })
         }
@@ -258,7 +256,7 @@ layui.use(['element', 'laypage', 'form', 'util', 'layer', 'flow','table','layedi
         function _setCookie(name,value,days) {
             if (days) {
                 var date = new Date();
-                date.setTime(date.getTime()+(days*24*60*60*1000));
+                date.setTime(date.getTime()+(days*30*60*1000));
                 var expires = "; expires="+date.toGMTString();
             }else{
                 var expires = "";
@@ -266,7 +264,7 @@ layui.use(['element', 'laypage', 'form', 'util', 'layer', 'flow','table','layedi
             document.cookie = name+"="+value+expires+"; path=/";
         }
 
-        // 获取用户信息
+        //获取用户信息
         $(function () {
             var userName = _getCookie('userName');
             if(null == userName){
