@@ -139,6 +139,7 @@ layui.use(['element', 'laypage', 'form', 'util', 'layer', 'flow','table','layedi
                         }else {
                             //登录
                             loginPage();
+                            setStyle(false);
                         }
                     }else {
                         layer.msg('请求失败！'+response);
@@ -189,9 +190,9 @@ layui.use(['element', 'laypage', 'form', 'util', 'layer', 'flow','table','layedi
            var data = {
                "userName" : userName,
                "password" : password,
-               "ip" : ip,
+               "ip" : $('.ip').text(),
                "browser" : browserName,
-               "city" : city
+               "city" : $('.city').text()
            };
            $.ajax({
                type: 'post',
