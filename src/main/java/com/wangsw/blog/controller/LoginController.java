@@ -1,5 +1,6 @@
 package com.wangsw.blog.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wangsw.blog.common.Constants;
 import com.wangsw.blog.common.Result;
 import com.wangsw.blog.dao.TLogMapper;
@@ -64,6 +65,8 @@ public class LoginController{
     @RequestMapping(value="/Login",method= RequestMethod.POST)
     @ResponseBody
     public Result Login(@RequestBody TUser user){
+
+        JSONObject jsonObject = new JSONObject();
         try {
             //shiro认证
             Subject subject = SecurityUtils.getSubject();
@@ -73,8 +76,12 @@ public class LoginController{
             //用户信息存入session
             subject.getSession().setAttribute(user.getUserName(), tUserMapper.selectByUserName(user.getUserName()));
             user = tUserMapper.selectByUserName(user.getUserName());
+
             SecurityUtils.getSubject().getSession().setAttribute(user.getUserName(), user);
             SecurityUtils.getSubject().getSession().setTimeout(Constants.TIME_OUT);
+
+            //用户信息
+            jsonObject = (JSONObject) JSONObject.toJSON(user);
 
             //记录日志
             TLog tLog = new TLog();
@@ -95,7 +102,7 @@ public class LoginController{
             return new Result("0","登录失败");
         }
         logger.debug("用户:"+user.getUserName()+"登录成功");
-        return new Result("1","登录成功");
+        return new Result("1","登录成功",jsonObject.toJSONString());
     }
 
     @ApiOperation(value = "登出", notes = "登出")

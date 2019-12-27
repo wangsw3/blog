@@ -90,68 +90,240 @@ layui.use(['element', 'laypage', 'form', 'util', 'layer', 'flow','table','layedi
         }, function () {
             $(".livechat-hint").removeClass("show_hint").addClass("hide_hint");
         }).click(function () {
-            login();
+            Islogin();
         });
 
         //设置样式
-        function setStyle(flag) {
-            if (!flag) { //未登录
+        function setStyle(flag,user) {
+            if (flag) {//登录
+                if("1" == user.gender){//男
+                    $('.girl').attr("src", "../images/nan.png").css("border-radius", "50px");
+                }else {//女
+                    $('.girl').attr("src", "../images/nv.png").css("border-radius", "50px");
+                }
+                $('.rd-notice-content').text('欢迎您，' + user.realName + "!");
+                $('.livechat-girl').css({ right: "0px", bottom: "80px" });
+            }else {//未登录
                 $('.girl').attr("src", "../images/a.png").css("border-radius", "0px");
                 $('.livechat-girl').css({ right: "-35px", bottom: "75px" }).removeClass("red-dot");
                 $('.rd-notice-content').text('嘿，来试试登录吧！');
+                clearInterval(anim);
                 return;
             }
-            clearInterval(anim);
-			$('.girl').attr("src", "../images/nan.png").css("border-radius", "50px");
-			$('.rd-notice-content').text('欢迎您，渣渣辉！');
-			$('.livechat-girl').css({ right: "0px", bottom: "80px" });	
+
         }
-        //登录事件
-        function login() {
+
+        //是否登录
+        function Islogin() {
+            var userName = _getCookie('userName');
+            if(null == userName){
+                //登录
+                loginPage();
+                return;
+            }
+            var data = {
+                "userName": userName
+            };
             $.ajax({
                 type: 'post',
                 dataTtpe: 'json',
                 contentType: 'application/json',
                 url:'/IsLogin',
-                data: JSON.stringify({"password": "123456","userName": "wangsw"}),
+                data: JSON.stringify(data),
                 success: function (response) {
                     console.log(response);
-                    if (response.data === 'false') {
-                        //window.location.href = "/toLogin?urls=" + window.location.href;
-                        setStyle(true);
+                    if ("1" == response.status && null != response.data) {
+                        if (response.data === 'true') {
+                            //window.location.href = "/toLogin?urls=" + window.location.href;
+                            userInfo(userName);
+                            //setStyle(false);
+                        }else {
+                            //登录
+                            loginPage();
+                        }
+                    }else {
+                        layer.msg('请求失败！');
                     }
                 },
                 error: function (response) {
-
+                    layer.msg('请求失败！');
                 }
             })
         }
 
-        // 获取用户信息
-       /* $(function () {
-            $.post("/userInfo", {}, function (response) {
-                if (response.code === 10000) {
-                    $('.girl').attr("src", response.data.avatar).css("border-radius", "50px");
-                    $('.rd-notice-content').text('欢迎您，' + response.data.nickname + "!");
-                    $('.livechat-girl').css({ right: "0px", bottom: "80px" });
+        //登录页面
+        function loginPage() {
+            var content = '<input type="text" name="userName" style="width: 90%; margin: 5% 20px;" lay-verify="title" autocomplete="off" placeholder="请输入登录名" class="layui-input"><input type="password" name="password" style="width: 90%; margin: 5% 20px;" placeholder="请输入密码" autocomplete="off" class="layui-input">';
+            layer.open({
+                type: 1
+                ,title: '登录'
+                ,area: ['390px', '240px']
+                ,shade: 0.8
+                ,id: 'loginPage' //设定一个id，防止重复弹出
+                ,btn: ['登录', '取消']
+                ,btnAlign: 'c'
+                ,moveType: 1 //拖拽模式，0或者1
+                ,content: content
+                ,success: function(layero){
+                    var btn = layero.find('.layui-layer-btn');
+                    //默认加载当前名称
+                    $("input[name='userName']").val($('.userName').text());
+                    btn.find('.layui-layer-btn0').click(function () {
+                        var userName = $("input[name='userName']").val();
+                        var password = $("input[name='password']").val();
+                        if("" == userName || null == userName || undefined == userName){
+                            layer.msg('登录名不能为空！');
+                            return;
+                        }
+                        if("" == password || null == password || undefined == password){
+                            layer.msg('密码不能为空！');
+                            return;
+                        }
+                        login(userName,password);
+                    });
+                }
+            });
+        }
+
+        //登录事件
+       function login(userName,password) {
+            var data = {
+                "userName" : userName,
+                "password" : password
+            };
+            $.ajax({
+                type: 'post',
+                dataTtpe: 'json',
+                contentType: 'application/json',
+                url:'/Login',
+                data: JSON.stringify(data),
+                success: function (response) {
+                    console.log(response);
+                    if ("1" == response.status && null != response.data) {
+                        var user = JSON.parse(response.data);
+                        //将用户存入cookie
+                        _setCookie('userName',user.userName,1);
+                        setStyle(true,user);
+                    }else {
+                        layer.msg('登录失败！');
+                    }
+                },
+                error: function (response) {
+                    layer.msg('请求失败！');
                 }
             })
-        })*/
+        }
 
-    }
-    catch (e) {
+        //登录事件
+        function userInfo(userName) {
+            $.ajax({
+                type: 'get',
+                dataTtpe: 'text',
+                url:'/user/get/name?userName='+userName,
+                success: function (response) {
+                    console.log(response);
+                    if ("1" == response.status && null != response.data) {
+                        var user = JSON.parse(response.data);
+                        _setCookie('userName',user.userName,1);
+                        setStyle(true,user);
+                    }else {
+                        layer.msg('登录失败！');
+                    }
+                },
+                error: function (response) {
+                    layer.msg('请求失败！');
+                }
+            })
+        }
+
+        // 获取cookie
+        function _getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0;i < ca.length;i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') c = c.substring(1,c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+            }
+            return null;
+        }
+
+        // 删除cookie
+        function _deleteCookie(name) {
+            var _this = this;
+            _this._setCookie(name,"",-1);
+        }
+
+        //赋值cookie
+        function _setCookie(name,value,days) {
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime()+(days*24*60*60*1000));
+                var expires = "; expires="+date.toGMTString();
+            }else{
+                var expires = "";
+            }
+            document.cookie = name+"="+value+expires+"; path=/";
+        }
+
+        // 获取用户信息
+        $(function () {
+            var userName = _getCookie('userName');
+            if(null == userName){
+                return;
+            }
+            userInfo(userName);
+        })
+    } catch (e) {
         layui.hint().error(e);
     }         
 });
 
-//百度统计
-/*
-var _hmt = _hmt || [];
-(function () {
-    var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?132af61e5d1e0bde3638f1ee143bfdb0";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-})();
-*/
+var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+var browserName = "";
+//判断是否Safari浏览器
+if (userAgent.indexOf("Safari") > 0) {
+    browserName = "Safari浏览器";
+}
+//判断是否Opera浏览器
+if (userAgent.indexOf("Opera") > 0) {
+    browserName = "Opera浏览器";
+};
+//判断是否Firefox浏览器
+if (userAgent.indexOf("Firefox") > 0) {
+    browserName = "Firefox浏览器";
+}
+//判断是否chorme浏览器
+if (userAgent.indexOf("Chrome") > 0) {
+    browserName = "Chrome浏览器";
+}
+//判断是否Edge浏览器
+if (userAgent.indexOf("Trident") > 0) {
+    browserName = "Edge浏览器";
+}
+//判断是否浏览器
+if (userAgent.indexOf("qqbrowser") > 0) {
+    browserName = "QQ浏览器";
+}
+//判断是否搜狗浏览器
+if (userAgent.indexOf("se 2.x") > 0) {
+    browserName = "搜狗浏览器";
+}
+
+
+//获取IP和地市
+var cityIp = "";
+var cityName = "";
+$.ajax({
+    url: 'http://api.map.baidu.com/location/ip?ak=ia6HfFL660Bvh43exmH9LrI6',
+    type: 'POST',
+    dataType: 'jsonp',
+    success:function(data) {
+        console.log(data);
+        //获取城市
+        cityIp = returnCitySN["cip"];
+        cityName = data.content.address_detail.province + data.content.address_detail.city;
+    }
+});
+
 

@@ -2,6 +2,7 @@ package com.wangsw.blog.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.wangsw.blog.common.Result;
 import com.wangsw.blog.dao.TUserMapper;
 import com.wangsw.blog.po.TUser;
 import io.swagger.annotations.Api;
@@ -35,89 +36,87 @@ public class TUserController {
     @ApiOperation(value = "查询用户", notes = "查询用户")
     @RequestMapping(value="/get/id",method= RequestMethod.GET)
     @ResponseBody
-    public JSONObject getById(@RequestParam("id") Integer id){
+    public Result getById(@RequestParam("id") Integer id){
         JSONObject result = new JSONObject();
         try{
             TUser tUser = tUserMapper.selectByPrimaryKey(id);
-            JSONObject jsonObject = (JSONObject) JSONObject.toJSON(tUser);
+            result = (JSONObject) JSONObject.toJSON(tUser);
             logger.debug("用户id=>{}",id);
-            logger.debug("用户信息=>{}",jsonObject.toJSONString());
-            result.put("data",jsonObject.toJSONString());
-            result.put("status","true");
-            result.put("message","请求成功");
+            logger.debug("用户信息=>{}",result.toJSONString());
         }catch (Exception e){
             logger.error(e.toString());
-            result.put("status","false");
-            result.put("message","请求失败");
+            return new Result("0","请求失败");
         }
-        return result;
+        return new Result("1","请求成功",result.toJSONString());
+    }
+
+    @ApiOperation(value = "查询用户", notes = "查询用户")
+    @RequestMapping(value="/get/name",method= RequestMethod.GET)
+    @ResponseBody
+    public Result getById(@RequestParam("userName") String userName){
+        JSONObject result = new JSONObject();
+        try{
+            TUser tUser = tUserMapper.selectByUserName(userName);
+            result = (JSONObject) JSONObject.toJSON(tUser);
+            logger.debug("userName=>{}",userName);
+            logger.debug("用户信息=>{}",result.toJSONString());
+        }catch (Exception e){
+            logger.error(e.toString());
+            return new Result("0","请求失败");
+        }
+        return new Result("1","请求成功",result.toJSONString());
     }
 
     @ApiOperation(value = "查询用户列表", notes = "查询用户列表")
     @RequestMapping(value="/get/all",method= RequestMethod.GET)
     @ResponseBody
-    public JSONObject getAll(){
-        JSONObject result = new JSONObject();
+    public Result getAll(){
+        JSONArray result = new JSONArray();
         try{
-            JSONArray jsonArray = new JSONArray();
             List<TUser> tUserList = tUserMapper.selectAll();
             if(tUserList.size()>0){
                 for(TUser tUser : tUserList){
-                    jsonArray.add(JSONObject.toJSON(tUser));
+                    result.add(JSONObject.toJSON(tUser));
                 }
             }
-            logger.debug("用户信息列表=>{}",jsonArray.toJSONString());
-            result.put("data",jsonArray.toJSONString());
-            result.put("status","true");
-            result.put("message","请求成功");
+            logger.debug("用户信息列表=>{}",result.toJSONString());
         }catch (Exception e){
             logger.error(e.toString());
-            result.put("status","false");
-            result.put("message","请求失败");
+            return new Result("0","请求失败");
         }
-        return result;
+        return new Result("1","请求成功",result.toJSONString());
     }
 
     @ApiOperation(value = "新增用户", notes = "新增用户")
     @RequestMapping(value="/insert",method= RequestMethod.POST)
     @ResponseBody
-    public JSONObject insert(@RequestBody TUser user){
-        JSONObject result = new JSONObject();
+    public Result insert(@RequestBody TUser user){
         try{
             user.setStatus(STATUS_Y);
             user.setCreateTime(new Date());
             user.setUpdateTime(new Date());
             tUserMapper.insertSelective(user);
             logger.debug("用户ID=>{}",user.getId());
-            result.put("data",user.getId());
-            result.put("status","true");
-            result.put("message","请求成功");
         }catch (Exception e){
             logger.error(e.toString());
-            result.put("status","false");
-            result.put("message","请求失败");
+            return new Result("0","请求失败");
         }
-        return result;
+        return new Result("1","请求成功",user.getId()+"");
     }
 
     @ApiOperation(value = "更新用户", notes = "更新用户")
     @RequestMapping(value="/update",method= RequestMethod.POST)
     @ResponseBody
-    public JSONObject update(@RequestBody TUser user){
-        JSONObject result = new JSONObject();
+    public Result update(@RequestBody TUser user){
         try{
             user.setUpdateTime(new Date());
             tUserMapper.updateByPrimaryKeySelective(user);
             logger.debug("用户ID=>{}",user.getId());
-            result.put("data",user.getId());
-            result.put("status","true");
-            result.put("message","请求成功");
         }catch (Exception e){
             logger.error(e.toString());
-            result.put("status","false");
-            result.put("message","请求失败");
+            return new Result("0","请求失败");
         }
-        return result;
+        return new Result("1","请求成功",user.getId()+"");
     }
 
 }
