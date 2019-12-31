@@ -2,6 +2,8 @@ package com.wangsw.blog.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.wangsw.blog.common.Result;
 import com.wangsw.blog.dao.TUserMapper;
 import com.wangsw.blog.po.TUser;
@@ -67,7 +69,7 @@ public class TUserController {
         return new Result("1","请求成功",result.toJSONString());
     }
 
-    @ApiOperation(value = "查询用户列表", notes = "查询用户列表")
+    @ApiOperation(value = "查询所有用户列表", notes = "查询所有用户列表")
     @RequestMapping(value="/get/all",method= RequestMethod.GET)
     @ResponseBody
     public Result getAll(){
@@ -85,6 +87,44 @@ public class TUserController {
             return new Result("0","请求失败");
         }
         return new Result("1","请求成功",result.toJSONString());
+    }
+
+    @ApiOperation(value = "分页查询所有用户列表", notes = "分页查询所有用户列表")
+    @RequestMapping(value="/get/all/page",method= RequestMethod.GET)
+    @ResponseBody
+    public Result getAllByPage(@RequestParam(value="pageNo",defaultValue="1")int pageNo, @RequestParam(value="pageSize",defaultValue="10")int pageSize){
+        PageInfo<TUser> result = new  PageInfo<TUser>();
+        try{
+            PageHelper.startPage(pageNo,pageSize);
+            List<TUser> tUserList = tUserMapper.selectAll();
+            if(tUserList.size()>0){
+                result = new PageInfo<>(tUserList);
+            }
+            logger.debug("分页用户信息列表=>{}",result);
+        }catch (Exception e){
+            logger.error(e.toString());
+            return new Result("0","请求失败");
+        }
+        return new Result("1","请求成功",result);
+    }
+
+    @ApiOperation(value = "条件分页查询所有用户列表", notes = "条件分页查询所有用户列表")
+    @RequestMapping(value="/get/para/page",method= RequestMethod.GET)
+    @ResponseBody
+    public Result getByParaPage(@RequestBody TUser user, @RequestParam(value="pageNo",defaultValue="1")int pageNo, @RequestParam(value="pageSize",defaultValue="10")int pageSize){
+        PageInfo<TUser> result = new  PageInfo<TUser>();
+        try{
+            PageHelper.startPage(pageNo,pageSize);
+            List<TUser> tUserList = tUserMapper.getByParaPage(user);
+            if(tUserList.size()>0){
+                result = new PageInfo<>(tUserList);
+            }
+            logger.debug("分页用户信息列表=>{}",result);
+        }catch (Exception e){
+            logger.error(e.toString());
+            return new Result("0","请求失败");
+        }
+        return new Result("1","请求成功",result);
     }
 
     @ApiOperation(value = "新增用户", notes = "新增用户")

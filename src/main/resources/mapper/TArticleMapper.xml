@@ -38,7 +38,7 @@
     where ID = #{id,jdbcType=INTEGER}
   </select>
 
-  <select id="selectAll" resultMap="TArticleClass">
+  <select id="selectAll" resultMap="ResultMapWithBLOBs">
     select
     <include refid="Base_Column_List" />
     ,

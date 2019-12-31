@@ -7,7 +7,7 @@ package com.wangsw.blog.common;
 public class Result {
     String status;//返回状态
     String message;//返回内容
-    String data;//返回数据
+    Object data;//返回数据
 
     public String getStatus() {
         return status;
@@ -25,11 +25,11 @@ public class Result {
         this.message = message;
     }
 
-    public String getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(Object data) {
         this.data = data;
     }
 
@@ -42,7 +42,7 @@ public class Result {
         this.message = message;
     }
 
-    public Result(String status, String message, String data) {
+    public Result(String status, String message, Object data) {
         this.status = status;
         this.message = message;
         this.data = data;
@@ -50,7 +50,7 @@ public class Result {
 
 
     public String toString() {
-        return "{\"status\":\""+ this.status +"\",\"message\":\"" +this.message+ "\",\"data\":\"" +this.data+ "\"}";
+        return "{\"status\":\""+ this.status +"\",\"message\":\"" +this.message+ "\"}";
     }
 
 }

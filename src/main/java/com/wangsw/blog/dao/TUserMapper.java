@@ -12,6 +12,8 @@ public interface TUserMapper {
 
     List<TUser> selectAll();
 
+    List<TUser> getByParaPage(TUser record);
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(TUser record);
