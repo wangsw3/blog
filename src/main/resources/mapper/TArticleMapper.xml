@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.wangsw.blog.po.TArticle" >
     <id column="ID" property="id" jdbcType="INTEGER" />
     <result column="TITLE" property="title" jdbcType="VARCHAR" />
-    <result column="ZHAIYAO" property="zhaiyao" jdbcType="VARCHAR" />
+    <result column="SUMMARY" property="summary" jdbcType="VARCHAR" />
     <result column="IMG_URL" property="imgUrl" jdbcType="VARCHAR" />
     <result column="TYPE_ID" property="typeId" jdbcType="INTEGER" />
     <result column="CLASS_ID" property="classId" jdbcType="INTEGER" />
@@ -19,17 +19,17 @@
     <result column="STATUS" property="status" jdbcType="INTEGER" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
   </resultMap>
-  <resultMap id="TArticle" type="com.wangsw.blog.po.TArticle" extends="BaseResultMap" >
+  <resultMap id="ResultMapWithBLOBs" type="com.wangsw.blog.po.TArticle" extends="BaseResultMap" >
     <result column="CONTENT" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    ID, TITLE, ZHAIYAO, IMG_URL, TYPE_ID, CLASS_ID, DING, LIKE_NUM, READ_NUM, COMMENT_NUM, 
+    ID, TITLE, SUMMARY, IMG_URL, TYPE_ID, CLASS_ID, DING, LIKE_NUM, READ_NUM, COMMENT_NUM, 
     CREATE_BY, UPDATE_BY, CREATE_TIME, UPDATE_TIME, STATUS, REMARK
   </sql>
   <sql id="Blob_Column_List" >
     CONTENT
   </sql>
-  <select id="selectByPrimaryKey" resultMap="TArticle" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     ,
@@ -37,13 +37,15 @@
     from t_article
     where ID = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectAll" resultMap="TArticle">
+
+  <select id="selectAll" resultMap="TArticleClass">
     select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from t_article
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_article
     where ID = #{id,jdbcType=INTEGER}
@@ -52,13 +54,13 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_article (TITLE, ZHAIYAO, IMG_URL, 
+    insert into t_article (TITLE, SUMMARY, IMG_URL, 
       TYPE_ID, CLASS_ID, DING, 
       LIKE_NUM, READ_NUM, COMMENT_NUM, 
       CREATE_BY, UPDATE_BY, CREATE_TIME, 
       UPDATE_TIME, STATUS, REMARK, 
       CONTENT)
-    values (#{title,jdbcType=VARCHAR}, #{zhaiyao,jdbcType=VARCHAR}, #{imgUrl,jdbcType=VARCHAR}, 
+    values (#{title,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, #{imgUrl,jdbcType=VARCHAR}, 
       #{typeId,jdbcType=INTEGER}, #{classId,jdbcType=INTEGER}, #{ding,jdbcType=INTEGER}, 
       #{likeNum,jdbcType=INTEGER}, #{readNum,jdbcType=INTEGER}, #{commentNum,jdbcType=INTEGER}, 
       #{createBy,jdbcType=INTEGER}, #{updateBy,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
@@ -74,8 +76,8 @@
       <if test="title != null" >
         TITLE,
       </if>
-      <if test="zhaiyao != null" >
-        ZHAIYAO,
+      <if test="summary != null" >
+        SUMMARY,
       </if>
       <if test="imgUrl != null" >
         IMG_URL,
@@ -124,8 +126,8 @@
       <if test="title != null" >
         #{title,jdbcType=VARCHAR},
       </if>
-      <if test="zhaiyao != null" >
-        #{zhaiyao,jdbcType=VARCHAR},
+      <if test="summary != null" >
+        #{summary,jdbcType=VARCHAR},
       </if>
       <if test="imgUrl != null" >
         #{imgUrl,jdbcType=VARCHAR},
@@ -177,8 +179,8 @@
       <if test="title != null" >
         TITLE = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="zhaiyao != null" >
-        ZHAIYAO = #{zhaiyao,jdbcType=VARCHAR},
+      <if test="summary != null" >
+        SUMMARY = #{summary,jdbcType=VARCHAR},
       </if>
       <if test="imgUrl != null" >
         IMG_URL = #{imgUrl,jdbcType=VARCHAR},
@@ -228,7 +230,7 @@
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.wangsw.blog.po.TArticle" >
     update t_article
     set TITLE = #{title,jdbcType=VARCHAR},
-      ZHAIYAO = #{zhaiyao,jdbcType=VARCHAR},
+      SUMMARY = #{summary,jdbcType=VARCHAR},
       IMG_URL = #{imgUrl,jdbcType=VARCHAR},
       TYPE_ID = #{typeId,jdbcType=INTEGER},
       CLASS_ID = #{classId,jdbcType=INTEGER},
@@ -248,7 +250,7 @@
   <update id="updateByPrimaryKey" parameterType="com.wangsw.blog.po.TArticle" >
     update t_article
     set TITLE = #{title,jdbcType=VARCHAR},
-      ZHAIYAO = #{zhaiyao,jdbcType=VARCHAR},
+      SUMMARY = #{summary,jdbcType=VARCHAR},
       IMG_URL = #{imgUrl,jdbcType=VARCHAR},
       TYPE_ID = #{typeId,jdbcType=INTEGER},
       CLASS_ID = #{classId,jdbcType=INTEGER},

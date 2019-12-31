@@ -7,7 +7,7 @@ public class TArticle {
 
     private String title;
 
-    private String zhaiyao;
+    private String summary;
 
     private String imgUrl;
 
@@ -53,12 +53,12 @@ public class TArticle {
         this.title = title == null ? null : title.trim();
     }
 
-    public String getZhaiyao() {
-        return zhaiyao;
+    public String getSummary() {
+        return summary;
     }
 
-    public void setZhaiyao(String zhaiyao) {
-        this.zhaiyao = zhaiyao == null ? null : zhaiyao.trim();
+    public void setSummary(String summary) {
+        this.summary = summary == null ? null : summary.trim();
     }
 
     public String getImgUrl() {

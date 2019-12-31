@@ -3,7 +3,7 @@
 <mapper namespace="com.wangsw.blog.dao.TArticleClassMapper" >
   <resultMap id="TArticleClass" type="com.wangsw.blog.po.TArticleClass" >
     <id column="ID" property="id" jdbcType="INTEGER" />
-    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="CLASS_NAME" property="className" jdbcType="VARCHAR" />
     <result column="CREATE_BY" property="createBy" jdbcType="INTEGER" />
     <result column="UPDATE_BY" property="updateBy" jdbcType="INTEGER" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
@@ -12,7 +12,7 @@
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    ID, NAME, CREATE_BY, UPDATE_BY, CREATE_TIME, UPDATE_TIME, STATUS, REMARK
+    ID, CLASS_NAME, CREATE_BY, UPDATE_BY, CREATE_TIME, UPDATE_TIME, STATUS, REMARK
   </sql>
   <select id="selectByPrimaryKey" resultMap="TArticleClass" parameterType="java.lang.Integer" >
     select 
@@ -33,10 +33,10 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_article_class (NAME, CREATE_BY, UPDATE_BY, 
+    insert into t_article_class (CLASS_NAME, CREATE_BY, UPDATE_BY, 
       CREATE_TIME, UPDATE_TIME, STATUS, 
       REMARK)
-    values (#{name,jdbcType=VARCHAR}, #{createBy,jdbcType=INTEGER}, #{updateBy,jdbcType=INTEGER}, 
+    values (#{className,jdbcType=VARCHAR}, #{createBy,jdbcType=INTEGER}, #{updateBy,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
       #{remark,jdbcType=VARCHAR})
   </insert>
@@ -46,8 +46,8 @@
     </selectKey>
     insert into t_article_class
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="name != null" >
-        NAME,
+      <if test="className != null" >
+        CLASS_NAME,
       </if>
       <if test="createBy != null" >
         CREATE_BY,
@@ -69,8 +69,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
+      <if test="className != null" >
+        #{className,jdbcType=VARCHAR},
       </if>
       <if test="createBy != null" >
         #{createBy,jdbcType=INTEGER},
@@ -95,8 +95,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.wangsw.blog.po.TArticleClass" >
     update t_article_class
     <set >
-      <if test="name != null" >
-        NAME = #{name,jdbcType=VARCHAR},
+      <if test="className != null" >
+        CLASS_NAME = #{className,jdbcType=VARCHAR},
       </if>
       <if test="createBy != null" >
         CREATE_BY = #{createBy,jdbcType=INTEGER},
@@ -121,7 +121,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.wangsw.blog.po.TArticleClass" >
     update t_article_class
-    set NAME = #{name,jdbcType=VARCHAR},
+    set CLASS_NAME = #{className,jdbcType=VARCHAR},
       CREATE_BY = #{createBy,jdbcType=INTEGER},
       UPDATE_BY = #{updateBy,jdbcType=INTEGER},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},

@@ -5,7 +5,7 @@ import java.util.Date;
 public class TArticleClass {
     private Integer id;
 
-    private String name;
+    private String className;
 
     private Integer createBy;
 
@@ -27,12 +27,12 @@ public class TArticleClass {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getClassName() {
+        return className;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setClassName(String className) {
+        this.className = className == null ? null : className.trim();
     }
 
     public Integer getCreateBy() {
