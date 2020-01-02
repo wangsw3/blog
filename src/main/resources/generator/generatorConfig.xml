@@ -62,11 +62,11 @@
             <generatedKey column="ID" sqlStatement="Mysql" identity="true"/>
         </table>-->
 
-        <table tableName="t_log" domainObjectName="TLog" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+        <table tableName="t_article" domainObjectName="TArticle" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <generatedKey column="ID" sqlStatement="Mysql" identity="true"/>
         </table>
 
-        <table tableName="t_comment" domainObjectName="TComment" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+        <table tableName="t_article_class" domainObjectName="TArticleClass" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <generatedKey column="ID" sqlStatement="Mysql" identity="true"/>
         </table>
 

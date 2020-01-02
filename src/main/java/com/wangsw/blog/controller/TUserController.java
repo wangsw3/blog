@@ -36,9 +36,9 @@ public class TUserController {
     Logger logger = LoggerFactory.getLogger(TUserController.class);
 
     @ApiOperation(value = "查询用户", notes = "查询用户")
-    @RequestMapping(value="/get/id",method= RequestMethod.GET)
+    @RequestMapping(value="/get/user/id",method= RequestMethod.GET)
     @ResponseBody
-    public Result getById(@RequestParam("id") Integer id){
+    public Result getUserId(@RequestParam("id") Integer id){
         JSONObject result = new JSONObject();
         try{
             TUser tUser = tUserMapper.selectByPrimaryKey(id);
@@ -53,9 +53,9 @@ public class TUserController {
     }
 
     @ApiOperation(value = "查询用户", notes = "查询用户")
-    @RequestMapping(value="/get/name",method= RequestMethod.GET)
+    @RequestMapping(value="/get/user/name",method= RequestMethod.GET)
     @ResponseBody
-    public Result getById(@RequestParam("userName") String userName){
+    public Result getUserName(@RequestParam("userName") String userName){
         JSONObject result = new JSONObject();
         try{
             TUser tUser = tUserMapper.selectByUserName(userName);
@@ -69,30 +69,10 @@ public class TUserController {
         return new Result("1","请求成功",result.toJSONString());
     }
 
-    @ApiOperation(value = "查询所有用户列表", notes = "查询所有用户列表")
-    @RequestMapping(value="/get/all",method= RequestMethod.GET)
-    @ResponseBody
-    public Result getAll(){
-        JSONArray result = new JSONArray();
-        try{
-            List<TUser> tUserList = tUserMapper.selectAll();
-            if(tUserList.size()>0){
-                for(TUser tUser : tUserList){
-                    result.add(JSONObject.toJSON(tUser));
-                }
-            }
-            logger.debug("用户信息列表=>{}",result.toJSONString());
-        }catch (Exception e){
-            logger.error(e.toString());
-            return new Result("0","请求失败");
-        }
-        return new Result("1","请求成功",result.toJSONString());
-    }
-
     @ApiOperation(value = "分页查询所有用户列表", notes = "分页查询所有用户列表")
-    @RequestMapping(value="/get/all/page",method= RequestMethod.GET)
+    @RequestMapping(value="/get/user/all",method= RequestMethod.GET)
     @ResponseBody
-    public Result getAllByPage(@RequestParam(value="pageNo",defaultValue="1")int pageNo, @RequestParam(value="pageSize",defaultValue="10")int pageSize){
+    public Result getUserAll(@RequestParam(value="pageNo",defaultValue="1")int pageNo, @RequestParam(value="pageSize",defaultValue="10")int pageSize){
         PageInfo<TUser> result = new  PageInfo<TUser>();
         try{
             PageHelper.startPage(pageNo,pageSize);
@@ -109,13 +89,13 @@ public class TUserController {
     }
 
     @ApiOperation(value = "条件分页查询所有用户列表", notes = "条件分页查询所有用户列表")
-    @RequestMapping(value="/get/para/page",method= RequestMethod.GET)
+    @RequestMapping(value="/get/user/para",method= RequestMethod.GET)
     @ResponseBody
-    public Result getByParaPage(@RequestBody TUser user, @RequestParam(value="pageNo",defaultValue="1")int pageNo, @RequestParam(value="pageSize",defaultValue="10")int pageSize){
+    public Result getUserPara(@RequestBody TUser user, @RequestParam(value="pageNo",defaultValue="1")int pageNo, @RequestParam(value="pageSize",defaultValue="10")int pageSize){
         PageInfo<TUser> result = new  PageInfo<TUser>();
         try{
             PageHelper.startPage(pageNo,pageSize);
-            List<TUser> tUserList = tUserMapper.getByParaPage(user);
+            List<TUser> tUserList = tUserMapper.getUserPara(user);
             if(tUserList.size()>0){
                 result = new PageInfo<>(tUserList);
             }
@@ -127,8 +107,27 @@ public class TUserController {
         return new Result("1","请求成功",result);
     }
 
+    @ApiOperation(value = "最近登录用户列表", notes = "最近登录用户列表")
+    @RequestMapping(value="/get/user/recent",method= RequestMethod.GET)
+    @ResponseBody
+    public Result getUserRecent(@RequestParam(value="pageNo",defaultValue="1")int pageNo, @RequestParam(value="pageSize",defaultValue="10")int pageSize){
+        PageInfo<TUser> result = new  PageInfo<TUser>();
+        try{
+            PageHelper.startPage(pageNo,pageSize);
+            List<TUser> tUserList = tUserMapper.getUserRecent();
+            if(tUserList.size()>0){
+                result = new PageInfo<>(tUserList);
+            }
+            logger.debug("最近登录用户信息列表=>{}",result);
+        }catch (Exception e){
+            logger.error(e.toString());
+            return new Result("0","请求失败");
+        }
+        return new Result("1","请求成功",result);
+    }
+
     @ApiOperation(value = "新增用户", notes = "新增用户")
-    @RequestMapping(value="/insert",method= RequestMethod.POST)
+    @RequestMapping(value="/insert/user",method= RequestMethod.POST)
     @ResponseBody
     public Result insert(@RequestBody TUser user){
         try{
@@ -145,7 +144,7 @@ public class TUserController {
     }
 
     @ApiOperation(value = "更新用户", notes = "更新用户")
-    @RequestMapping(value="/update",method= RequestMethod.POST)
+    @RequestMapping(value="/update/user",method= RequestMethod.POST)
     @ResponseBody
     public Result update(@RequestBody TUser user){
         try{

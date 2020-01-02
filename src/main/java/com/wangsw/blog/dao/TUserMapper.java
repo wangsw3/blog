@@ -12,7 +12,9 @@ public interface TUserMapper {
 
     List<TUser> selectAll();
 
-    List<TUser> getByParaPage(TUser record);
+    List<TUser> getUserPara(TUser record);
+
+    List<TUser> getUserRecent();
 
     int deleteByPrimaryKey(Integer id);
 
