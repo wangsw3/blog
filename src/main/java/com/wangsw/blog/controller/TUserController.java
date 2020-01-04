@@ -110,7 +110,7 @@ public class TUserController {
     @ApiOperation(value = "最近登录用户列表", notes = "最近登录用户列表")
     @RequestMapping(value="/get/recent",method= RequestMethod.GET)
     @ResponseBody
-    public Result getUserRecent(@RequestParam(value="pageNo",defaultValue="1")int pageNo, @RequestParam(value="pageSize",defaultValue="10")int pageSize){
+    public Result getRecent(@RequestParam(value="pageNo",defaultValue="1")int pageNo, @RequestParam(value="pageSize",defaultValue="10")int pageSize){
         PageInfo<TUser> result = new  PageInfo<TUser>();
         try{
             PageHelper.startPage(pageNo,pageSize);
@@ -124,6 +124,26 @@ public class TUserController {
             return new Result("0","请求失败");
         }
         return new Result("1","请求成功",result);
+    }
+
+    @ApiOperation(value = "热评用户列表", notes = "热评用户列表")
+    @RequestMapping(value="/get/hot",method= RequestMethod.GET)
+    @ResponseBody
+    public Result getHot(){
+        JSONArray result = new JSONArray();
+        try{
+            List<TUser> tUserList = tUserMapper.getHot();
+            if(tUserList.size()>0){
+                for(TUser tUser : tUserList){
+                    result.add(JSONObject.toJSON(tUser));
+                }
+            }
+            logger.debug("热评用户列表=>{}",result.toJSONString());
+        }catch (Exception e){
+            logger.error(e.toString());
+            return new Result("0","请求失败");
+        }
+        return new Result("1","请求成功",result.toJSONString());
     }
 
     @ApiOperation(value = "新增用户", notes = "新增用户")

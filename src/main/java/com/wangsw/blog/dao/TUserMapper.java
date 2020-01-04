@@ -16,6 +16,8 @@ public interface TUserMapper {
 
     List<TUser> getRecent();
 
+    List<TUser> getHot();
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(TUser record);

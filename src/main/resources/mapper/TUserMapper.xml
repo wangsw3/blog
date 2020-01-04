@@ -49,6 +49,12 @@
     group by tl.USER_ID order by tu.ROLE_ID asc, tl.CREATE_TIME desc
   </select>
 
+  <select id="getHot" resultMap="TUser">
+    select tc.SEND_ID,count(tc.SEND_ID) as COUNT,tu.USER_NAME,tu.ROLE_ID,tu.REAL_NAME,tu.GENDER,tu.HEADSHOT,tu.CREATE_TIME from t_comment tc
+    left join t_user tu on tu.ID = tc.SEND_ID
+    group by tc.SEND_ID order by COUNT desc,tc.CREATE_TIME desc limit 3
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_user
     where ID = #{id,jdbcType=INTEGER}

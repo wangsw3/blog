@@ -35,6 +35,8 @@ public class TUser {
 
     private String city;
 
+    private String count;
+
     public Integer getId() {
         return id;
     }
@@ -161,5 +163,13 @@ public class TUser {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getCount() {
+        return count;
+    }
+
+    public void setCount(String count) {
+        this.count = count;
     }
 }

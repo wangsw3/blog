@@ -102,30 +102,36 @@ function iniParam() {
  </p>
  </div>
  * */
-recentUser();
+hotCommentUser();
 //查询最近一周访问的用户
-function recentUser() {
+function hotCommentUser() {
     $.ajax({
         type: 'get',
         dataType: 'json',
-        url:'/user/get/recent?pageNo=1&pageSize=10',
+        url:'/user/get/hot',
         success: function (response) {
             console.log(response);
             if ("1" == response.status && null != response.data) {
-                var size = response.data.size;
-                if(size>0){
-                    var list = response.data.list;
-                    var swiperWrapper = '';
-                    for(var i=0; i<size; i++){
-                        var userInfo = '<div class="swiper-slide">'
+                var list = JSON.parse(response.data);
+                if(list.length>0){
+                    var hotReview = '';
+                    for(var i=0; i<list.length; i++){
+                        var userInfo = '<div class="layui-col-md4 layui-col-sm4">'
+                            + '<svg class="icon" aria-hidden="true">'
+                            + '<use xlink:href="#layui-extend-jiangbei-' +(i+1)+ '"></use>'
+                            + '</svg>'
                             + '<a href="#" target="_blank" rel="nofollow">'
-                            + '<img class="layui-circle" src="' +list[i].headshot+ '" alt="">'
+                            + '<img class="layui-circle" src="' +list[i].headshot+' " alt="">'
                             + '<h4 class="layui-elip">' +list[i].userName+ '</h4>'
                             + '</a>'
+                            + '<p>'
+                            + ' 本站评论数：<span class="layui-badge layui-bg-orange">' +list[i].count+ '</span>'
+                            + '</p>'
                             + '</div>';
-                        swiperWrapper += userInfo;
+                        hotReview += userInfo;
                     }
-                    $('#swiper2 .swiper-wrapper').html(swiperWrapper);
+                    hotReview += '<span class="border-line"></span>';
+                    $('.hot-review').find('.layui-row').html(hotReview);
                 }
             }else {
                 layer.msg('请求失败！'+response);
@@ -145,7 +151,7 @@ function recentUser() {
     $.ajax({
         type: 'get',
         dataType: 'json',
-        url:'/user/get/recent?pageNo=1&pageSize=10',
+        url:'/user/get/recent?pageNo=1&pageSize=15',
         success: function (response) {
             console.log(response);
             if ("1" == response.status && null != response.data) {
