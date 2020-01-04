@@ -113,6 +113,44 @@ layui.use(['element', 'laypage', 'form', 'util', 'layer', 'flow','table','layedi
 
         }
 
+        //登出
+        function logout() {
+            var userName = _getCookie('userName');
+            if(null == userName){
+                layer.msg('用户已下线');
+                //登录
+                loginPage();
+            }
+            var data = {
+                "userName": userName
+            };
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                contentType: 'application/json',
+                url:'/logout',
+                data: JSON.stringify(data),
+                success: function (response) {
+                    console.log(response);
+                    if ("1" == response.status && null != response.data) {
+                        if (response.data === 'true') {
+                            //获取用户信息
+                            userInfo(userName);
+                        }else {
+                            //登录
+                            loginPage();
+                            setStyle(false);
+                        }
+                    }else {
+                        layer.msg('请求失败！'+response);
+                    }
+                },
+                error: function (response) {
+                    layer.msg('请求失败！'+response);
+                }
+            })
+        }
+
         //是否登录
         function Islogin() {
             var userName = _getCookie('userName');
@@ -126,9 +164,9 @@ layui.use(['element', 'laypage', 'form', 'util', 'layer', 'flow','table','layedi
             };
             $.ajax({
                 type: 'post',
-                dataTtpe: 'json',
+                dataType: 'json',
                 contentType: 'application/json',
-                url:'/IsLogin',
+                url:'/isLogin',
                 data: JSON.stringify(data),
                 success: function (response) {
                     console.log(response);
@@ -196,9 +234,9 @@ layui.use(['element', 'laypage', 'form', 'util', 'layer', 'flow','table','layedi
            };
            $.ajax({
                type: 'post',
-               dataTtpe: 'json',
+               dataType: 'json',
                contentType: 'application/json',
-               url:'/Login',
+               url:'/login',
                data: JSON.stringify(data),
                success: function (response) {
                    console.log(response);
@@ -221,7 +259,7 @@ layui.use(['element', 'laypage', 'form', 'util', 'layer', 'flow','table','layedi
         function userInfo(userName) {
             $.ajax({
                 type: 'get',
-                dataTtpe: 'text',
+                dataType: 'json',
                 url:'/user/get/name?userName='+userName,
                 success: function (response) {
                     console.log(response);

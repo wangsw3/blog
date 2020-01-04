@@ -2,7 +2,7 @@
 
 function iniParam() {
     var device = layui.device();
-   
+
     //页面效果
     $(".bg-overlay").removeClass("layui-hide");
     $(".bottom-grids a").hover(function () {
@@ -59,35 +59,6 @@ function iniParam() {
         },
     });
 
-    //查询最近一周访问的用户
-    function recentUser() {
-        $.ajax({
-            type: 'post',
-            dataTtpe: 'json',
-            contentType: 'application/json',
-            url:'/IsLogin',
-            data: JSON.stringify(data),
-            success: function (response) {
-                console.log(response);
-                if ("1" == response.status && null != response.data) {
-                    if (response.data === 'true') {
-                        //获取用户信息
-                        userInfo(userName);
-                    }else {
-                        //登录
-                        loginPage();
-                        setStyle(false);
-                    }
-                }else {
-                    layer.msg('请求失败！'+response);
-                }
-            },
-            error: function (response) {
-                layer.msg('请求失败！'+response);
-            }
-        })
-    };
-
     //最近访客初始化
     var swiper2 = new Swiper('#swiper2', {
         autoplay: { //可选选项，自动滑动
@@ -116,7 +87,90 @@ function iniParam() {
             dynamicBullets: true,//动态分页器，当你的slide很多时，开启后，分页器小点的数量会部分隐藏。
         },
     });
+}
+/*
+ * <div class="layui-col-md4 layui-col-sm4">
+ <svg class="icon" aria-hidden="true">
+ <use xlink:href="#layui-extend-jiangbei-1"></use>
+ </svg>
+ <a href="#" target="_blank" rel="nofollow">
+ <img class="layui-circle" src="images/nan.png" alt="">
+ <h4 class="layui-elip">胖大海</h4>
+ </a>
+ <p>
+ 本站评论数：<span class="layui-badge layui-bg-orange">88</span>
+ </p>
+ </div>
+ * */
+recentUser();
+//查询最近一周访问的用户
+function recentUser() {
+    $.ajax({
+        type: 'get',
+        dataType: 'json',
+        url:'/user/get/recent?pageNo=1&pageSize=10',
+        success: function (response) {
+            console.log(response);
+            if ("1" == response.status && null != response.data) {
+                var size = response.data.size;
+                if(size>0){
+                    var list = response.data.list;
+                    var swiperWrapper = '';
+                    for(var i=0; i<size; i++){
+                        var userInfo = '<div class="swiper-slide">'
+                            + '<a href="#" target="_blank" rel="nofollow">'
+                            + '<img class="layui-circle" src="' +list[i].headshot+ '" alt="">'
+                            + '<h4 class="layui-elip">' +list[i].userName+ '</h4>'
+                            + '</a>'
+                            + '</div>';
+                        swiperWrapper += userInfo;
+                    }
+                    $('#swiper2 .swiper-wrapper').html(swiperWrapper);
+                }
+            }else {
+                layer.msg('请求失败！'+response);
+            }
+        },
+        error: function (response) {
+            layer.msg('请求失败！'+response);
+        }
+    })
+}
 
-  
+
+
+recentUser();
+//查询最近一周访问的用户
+function recentUser() {
+    $.ajax({
+        type: 'get',
+        dataType: 'json',
+        url:'/user/get/recent?pageNo=1&pageSize=10',
+        success: function (response) {
+            console.log(response);
+            if ("1" == response.status && null != response.data) {
+                var size = response.data.size;
+                if(size>0){
+                    var list = response.data.list;
+                    var swiperWrapper = '';
+                    for(var i=0; i<size; i++){
+                        var userInfo = '<div class="swiper-slide">'
+                            + '<a href="#" target="_blank" rel="nofollow">'
+                            + '<img class="layui-circle" src="' +list[i].headshot+ '" alt="">'
+                            + '<h4 class="layui-elip">' +list[i].userName+ '</h4>'
+                            + '</a>'
+                            + '</div>';
+                        swiperWrapper += userInfo;
+                    }
+                    $('#swiper2 .swiper-wrapper').html(swiperWrapper);
+                }
+            }else {
+                layer.msg('请求失败！'+response);
+            }
+        },
+        error: function (response) {
+            layer.msg('请求失败！'+response);
+        }
+    })
 }
 

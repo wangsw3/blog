@@ -38,7 +38,7 @@ public class LoginController{
     private TLogMapper tLogMapper;
 
     @ApiOperation(value = "是否登录", notes = "是否登录")
-    @RequestMapping(value="/IsLogin",method= RequestMethod.POST)
+    @RequestMapping(value="/isLogin",method= RequestMethod.POST)
     @ResponseBody
     public Result isLogin(@RequestBody TUser user){
         String data = "false";
@@ -62,9 +62,9 @@ public class LoginController{
     }
 
     @ApiOperation(value = "登录", notes = "登录")
-    @RequestMapping(value="/Login",method= RequestMethod.POST)
+    @RequestMapping(value="/login",method= RequestMethod.POST)
     @ResponseBody
-    public Result Login(@RequestBody TUser user){
+    public Result login(@RequestBody TUser user){
 
         JSONObject jsonObject = new JSONObject();
         try {
@@ -107,9 +107,9 @@ public class LoginController{
     }
 
     @ApiOperation(value = "登出", notes = "登出")
-    @RequestMapping(value="/Logout",method= RequestMethod.POST)
+    @RequestMapping(value="/logout",method= RequestMethod.POST)
     @ResponseBody
-    public Result Logout(@RequestBody TUser user){
+    public Result logout(@RequestBody TUser user){
         SecurityUtils.getSubject().getSession().removeAttribute(user.getUserName());
         logger.debug("用户:"+user.getUserName()+"登出成功");
 

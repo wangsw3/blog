@@ -40,13 +40,13 @@
     from t_user
   </select>
 
-  <select id="getUserRecent" resultMap="TUser">
-    select tu.ID, tu.USER_NAME, tu.REAL_NAME, tu.GENDER, tu.HEADSHOT from (
-      select * from t_log where LOG_TYPE = 'LOGIN' AND `STATUS` = 1 AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) <![CDATA[ <= date(CREATE_TIME) ]]>
+  <select id="getRecent" resultMap="TUser">
+    select tu.ID, tu.USER_NAME, tu.ROLE_ID, tu.REAL_NAME, tu.GENDER, tu.HEADSHOT, tl.CREATE_TIME from (
+      select * from t_log l where l.LOG_TYPE = 'LOGIN' and l.`STATUS` = 1 and DATE_SUB(CURDATE(), INTERVAL 7 DAY) <![CDATA[ <= date(l.CREATE_TIME) ]]>
     ) tl
-    LEFT JOIN t_user tu ON tl.USER_ID = tu.ID
-    where tu.ROLE_ID = '3'
-    GROUP BY tl.USER_ID ORDER BY tl.CREATE_TIME DESC
+    left join t_user tu on tl.USER_ID = tu.ID
+    where tu.ROLE_ID != '1'
+    group by tl.USER_ID order by tu.ROLE_ID asc, tl.CREATE_TIME desc
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >

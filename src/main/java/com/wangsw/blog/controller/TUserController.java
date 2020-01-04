@@ -36,9 +36,9 @@ public class TUserController {
     Logger logger = LoggerFactory.getLogger(TUserController.class);
 
     @ApiOperation(value = "查询用户", notes = "查询用户")
-    @RequestMapping(value="/get/user/id",method= RequestMethod.GET)
+    @RequestMapping(value="/get/id",method= RequestMethod.GET)
     @ResponseBody
-    public Result getUserId(@RequestParam("id") Integer id){
+    public Result getId(@RequestParam("id") Integer id){
         JSONObject result = new JSONObject();
         try{
             TUser tUser = tUserMapper.selectByPrimaryKey(id);
@@ -53,9 +53,9 @@ public class TUserController {
     }
 
     @ApiOperation(value = "查询用户", notes = "查询用户")
-    @RequestMapping(value="/get/user/name",method= RequestMethod.GET)
+    @RequestMapping(value="/get/name",method= RequestMethod.GET)
     @ResponseBody
-    public Result getUserName(@RequestParam("userName") String userName){
+    public Result getName(@RequestParam("userName") String userName){
         JSONObject result = new JSONObject();
         try{
             TUser tUser = tUserMapper.selectByUserName(userName);
@@ -70,9 +70,9 @@ public class TUserController {
     }
 
     @ApiOperation(value = "分页查询所有用户列表", notes = "分页查询所有用户列表")
-    @RequestMapping(value="/get/user/all",method= RequestMethod.GET)
+    @RequestMapping(value="/get/all",method= RequestMethod.GET)
     @ResponseBody
-    public Result getUserAll(@RequestParam(value="pageNo",defaultValue="1")int pageNo, @RequestParam(value="pageSize",defaultValue="10")int pageSize){
+    public Result getAll(@RequestParam(value="pageNo",defaultValue="1")int pageNo, @RequestParam(value="pageSize",defaultValue="10")int pageSize){
         PageInfo<TUser> result = new  PageInfo<TUser>();
         try{
             PageHelper.startPage(pageNo,pageSize);
@@ -89,13 +89,13 @@ public class TUserController {
     }
 
     @ApiOperation(value = "条件分页查询所有用户列表", notes = "条件分页查询所有用户列表")
-    @RequestMapping(value="/get/user/para",method= RequestMethod.GET)
+    @RequestMapping(value="/get/para",method= RequestMethod.GET)
     @ResponseBody
-    public Result getUserPara(@RequestBody TUser user, @RequestParam(value="pageNo",defaultValue="1")int pageNo, @RequestParam(value="pageSize",defaultValue="10")int pageSize){
+    public Result getPara(@RequestBody TUser user, @RequestParam(value="pageNo",defaultValue="1")int pageNo, @RequestParam(value="pageSize",defaultValue="10")int pageSize){
         PageInfo<TUser> result = new  PageInfo<TUser>();
         try{
             PageHelper.startPage(pageNo,pageSize);
-            List<TUser> tUserList = tUserMapper.getUserPara(user);
+            List<TUser> tUserList = tUserMapper.getPara(user);
             if(tUserList.size()>0){
                 result = new PageInfo<>(tUserList);
             }
@@ -108,13 +108,13 @@ public class TUserController {
     }
 
     @ApiOperation(value = "最近登录用户列表", notes = "最近登录用户列表")
-    @RequestMapping(value="/get/user/recent",method= RequestMethod.GET)
+    @RequestMapping(value="/get/recent",method= RequestMethod.GET)
     @ResponseBody
     public Result getUserRecent(@RequestParam(value="pageNo",defaultValue="1")int pageNo, @RequestParam(value="pageSize",defaultValue="10")int pageSize){
         PageInfo<TUser> result = new  PageInfo<TUser>();
         try{
             PageHelper.startPage(pageNo,pageSize);
-            List<TUser> tUserList = tUserMapper.getUserRecent();
+            List<TUser> tUserList = tUserMapper.getRecent();
             if(tUserList.size()>0){
                 result = new PageInfo<>(tUserList);
             }
@@ -127,7 +127,7 @@ public class TUserController {
     }
 
     @ApiOperation(value = "新增用户", notes = "新增用户")
-    @RequestMapping(value="/insert/user",method= RequestMethod.POST)
+    @RequestMapping(value="/insert",method= RequestMethod.POST)
     @ResponseBody
     public Result insert(@RequestBody TUser user){
         try{
@@ -144,7 +144,7 @@ public class TUserController {
     }
 
     @ApiOperation(value = "更新用户", notes = "更新用户")
-    @RequestMapping(value="/update/user",method= RequestMethod.POST)
+    @RequestMapping(value="/update",method= RequestMethod.POST)
     @ResponseBody
     public Result update(@RequestBody TUser user){
         try{
