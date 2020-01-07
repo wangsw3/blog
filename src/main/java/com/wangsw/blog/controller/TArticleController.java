@@ -2,6 +2,9 @@ package com.wangsw.blog.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.wangsw.blog.common.Result;
 import com.wangsw.blog.dao.TArticleMapper;
 import com.wangsw.blog.po.TArticle;
 import io.swagger.annotations.Api;
@@ -33,89 +36,90 @@ public class TArticleController {
     @ApiOperation(value = "查询文章", notes = "查询文章")
     @RequestMapping(value="/get/id",method= RequestMethod.GET)
     @ResponseBody
-    public JSONObject getById(@RequestParam("id") Integer id){
+    public Result getById(@RequestParam("id") Integer id){
         JSONObject result = new JSONObject();
         try{
             TArticle tArticle = tArticleMapper.selectByPrimaryKey(id);
-            JSONObject jsonObject = (JSONObject) JSONObject.toJSON(tArticle);
+            result = (JSONObject) JSONObject.toJSON(tArticle);
             logger.debug("文章id=>{}",id);
-            logger.debug("文章信息=>{}",jsonObject.toJSONString());
-            result.put("data",jsonObject.toJSONString());
-            result.put("status","true");
-            result.put("message","请求成功");
+            logger.debug("文章信息=>{}",result.toJSONString());
+
         }catch (Exception e){
             logger.error(e.toString());
-            result.put("status","false");
-            result.put("message","请求失败");
+            return new Result("0","请求失败");
         }
-        return result;
+        return new Result("1","请求成功",result.toJSONString());
     }
 
-    @ApiOperation(value = "查询文章列表", notes = "查询文章列表")
+    @ApiOperation(value = "分页查询文章列表", notes = "分页查询文章列表")
     @RequestMapping(value="/get/all",method= RequestMethod.GET)
     @ResponseBody
-    public JSONObject getAll(){
-        JSONObject result = new JSONObject();
+    public Result getAll(@RequestParam(value="pageNo",defaultValue="1")int pageNo, @RequestParam(value="pageSize",defaultValue="10")int pageSize){
+        PageInfo<TArticle> result = new  PageInfo<TArticle>();
         try{
-            JSONArray jsonArray = new JSONArray();
+            PageHelper.startPage(pageNo,pageSize);
             List<TArticle> tArticleList = tArticleMapper.selectAll();
             if(tArticleList.size()>0){
-                for(TArticle tArticle : tArticleList){
-                    jsonArray.add(JSONObject.toJSON(tArticle));
-                }
+                result = new PageInfo<>(tArticleList);
             }
-            logger.debug("文章信息列表=>{}",jsonArray.toJSONString());
-            result.put("data",jsonArray.toJSONString());
-            result.put("status","true");
-            result.put("message","请求成功");
+            logger.debug("分页查询文章列表=>{}",result);
         }catch (Exception e){
             logger.error(e.toString());
-            result.put("status","false");
-            result.put("message","请求失败");
+            return new Result("0","请求失败");
         }
-        return result;
+        return new Result("1","请求成功",result);
+    }
+
+    @ApiOperation(value = "热门文章列表", notes = "热门文章列表")
+    @RequestMapping(value="/get/like",method= RequestMethod.GET)
+    @ResponseBody
+    public Result getLike(){
+        JSONArray result = new JSONArray();
+        try{
+            List<TArticle> tArticleList = tArticleMapper.getLike();
+            if(tArticleList.size()>0){
+                for(TArticle tArticle : tArticleList){
+                    result.add(JSONObject.toJSON(tArticle));
+                }
+            }
+            logger.debug("热门文章列表=>{}",result.toJSONString());
+        }catch (Exception e){
+            logger.error(e.toString());
+            return new Result("0","请求失败");
+        }
+        return new Result("1","请求成功",result.toJSONString());
     }
 
     @ApiOperation(value = "新增文章", notes = "新增文章")
     @RequestMapping(value="/insert",method= RequestMethod.POST)
     @ResponseBody
-    public JSONObject insert(@RequestBody TArticle article){
-        JSONObject result = new JSONObject();
+    public Result insert(@RequestBody TArticle article){
         try{
             article.setStatus(STATUS_Y);
             article.setCreateTime(new Date());
             article.setUpdateTime(new Date());
             tArticleMapper.insertSelective(article);
             logger.debug("文章ID=>{}",article.getId());
-            result.put("data",article.getId());
-            result.put("status","true");
-            result.put("message","请求成功");
         }catch (Exception e){
             logger.error(e.toString());
-            result.put("status","false");
-            result.put("message","请求失败");
+            return new Result("0","请求失败");
         }
-        return result;
+        return new Result("1","请求成功",article.getId()+"");
     }
 
     @ApiOperation(value = "更新文章", notes = "更新文章")
     @RequestMapping(value="/update",method= RequestMethod.POST)
     @ResponseBody
-    public JSONObject update(@RequestBody TArticle article){
-        JSONObject result = new JSONObject();
+    public Result update(@RequestBody TArticle article){
         try{
             article.setUpdateTime(new Date());
             tArticleMapper.updateByPrimaryKeySelective(article);
             logger.debug("文章ID=>{}",article.getId());
-            result.put("data",article.getId());
-            result.put("status","true");
-            result.put("message","请求成功");
         }catch (Exception e){
             logger.error(e.toString());
-            result.put("status","false");
-            result.put("message","请求失败");
+            return new Result("0","请求失败");
         }
-        return result;
+        return new Result("1","请求成功",article.getId()+"");
     }
 
 }

@@ -20,4 +20,6 @@ public interface TArticleMapper {
     int updateByPrimaryKey(TArticle record);
 
     List<TArticle> selectAll();
+
+    List<TArticle> getLike();
 }

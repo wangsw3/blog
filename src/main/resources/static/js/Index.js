@@ -88,20 +88,84 @@ function iniParam() {
         },
     });
 }
-/*
- * <div class="layui-col-md4 layui-col-sm4">
- <svg class="icon" aria-hidden="true">
- <use xlink:href="#layui-extend-jiangbei-1"></use>
- </svg>
- <a href="#" target="_blank" rel="nofollow">
- <img class="layui-circle" src="images/nan.png" alt="">
- <h4 class="layui-elip">胖大海</h4>
- </a>
- <p>
- 本站评论数：<span class="layui-badge layui-bg-orange">88</span>
- </p>
- </div>
- * */
+
+likeArticle();
+//查询最近一周访问的用户
+function likeArticle() {
+    $.ajax({
+        type: 'get',
+        dataType: 'json',
+        url:'/article/get/like',
+        success: function (response) {
+            console.log(response);
+            if ("1" == response.status && null != response.data) {
+                var list = JSON.parse(response.data);
+                if(list.length>0){
+                    var likeArticle = '';
+                    for(var i=0; i<list.length; i++){
+                        var id = list[i].id;
+                        var imgUrl = list[i].imgUrl;
+                        var createByName = list[i].createByName;
+                        var createTime = list[i].createTime;
+                        createTime = formatDate(createTime)
+                        var title = list[i].title;
+                        if(title.length>15){
+                            title = title.substring(0,15)+"...";
+                        }
+                        var content = list[i].content;
+                        if(content.length>65){
+                            content = content.substring(0,65)+"...";
+                        }
+                        var articleInfo = '<div class="layui-col-md4 layui-col-sm6 layui-col-xs12">'
+                            + '<article class="card">'
+                            + '<a href="/front/ArticleDetail?id=' +id+ '">'
+                            + '<img class="card-img-top" src="' +imgUrl+ '" alt=""></a>'
+                            + '<div class="card-body">'
+                            + '<div class="card-subtitle mb-2 text-muted">作者：' +createByName+ ' &nbsp;&nbsp;' +createTime+ '</div>'
+                            + '<h4 class="card-title"><a href="/front/ArticleDetail?id=' +id+ '">' +title+ '</a></h4>'
+                            + '<p class="card-text">' +content+ '</p>'
+                            + '<div class="text-right">'
+                            + '<a href="/front/ArticleDetail?id='+id+'" class="card-more">阅读更多&nbsp;<i class="layui-icon layui-icon-right"></i></a>'
+                            + '</div>'
+                            + '</div>'
+                            + '</article>'
+                            + '</div>';
+                        likeArticle += articleInfo;
+                    }
+                    likeArticle += '<span class="border-line"></span>';
+                    $('.blog-body').html(likeArticle);
+                }
+            }else {
+                layer.msg('请求失败！'+response);
+            }
+        },
+        error: function (response) {
+            layer.msg('请求失败！'+response);
+        }
+    })
+}
+
+//时间格式化
+function formatDate(time) {
+    var date=new Date(time);
+    var y = date.getFullYear();
+    var m = date.getMonth() + 1;
+    var d = date.getDate();
+    var hour = date.getHours().toString();
+    var minutes = date.getMinutes().toString();
+    var seconds = date.getSeconds().toString();
+    if (hour < 10) {
+        hour = "0" + hour;
+    }
+    if (minutes < 10) {
+        minutes = "0" + minutes;
+    }
+    if (seconds < 10) {
+        seconds = "0" + seconds;
+    }
+    return  y + '-' + (m < 10 ? ('0' + m) : m) + '-' + (d < 10 ? ('0' + d) : d) + " " + hour + ":" + minutes + ":" + seconds;
+}
+
 hotCommentUser();
 //查询最近一周访问的用户
 function hotCommentUser() {
@@ -142,7 +206,6 @@ function hotCommentUser() {
         }
     })
 }
-
 
 
 recentUser();

@@ -25,6 +25,8 @@ public class TArticle {
 
     private Integer createBy;
 
+    private String createByName;
+
     private Integer updateBy;
 
     private Date createTime;
@@ -123,6 +125,14 @@ public class TArticle {
 
     public void setCreateBy(Integer createBy) {
         this.createBy = createBy;
+    }
+
+    public String getCreateByName() {
+        return createByName;
+    }
+
+    public void setCreateByName(String createByName) {
+        this.createByName = createByName;
     }
 
     public Integer getUpdateBy() {

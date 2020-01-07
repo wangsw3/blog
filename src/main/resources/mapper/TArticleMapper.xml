@@ -13,6 +13,7 @@
     <result column="READ_NUM" property="readNum" jdbcType="INTEGER" />
     <result column="COMMENT_NUM" property="commentNum" jdbcType="INTEGER" />
     <result column="CREATE_BY" property="createBy" jdbcType="INTEGER" />
+    <result column="CREATE_BY_NAME" property="createByName" jdbcType="VARCHAR" />
     <result column="UPDATE_BY" property="updateBy" jdbcType="INTEGER" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
@@ -44,6 +45,12 @@
     ,
     <include refid="Blob_Column_List" />
     from t_article
+  </select>
+
+  <select id="getLike" resultMap="ResultMapWithBLOBs">
+    select ta.*,tu.REAL_NAME as CREATE_BY_NAME from t_article ta
+    left join t_user tu on tu.ID = ta.CREATE_BY
+    where ta.`STATUS` = 1 order by ta.LIKE_NUM desc
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
