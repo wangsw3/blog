@@ -15,7 +15,7 @@ public class GlobalController {
     * */
     @RequestMapping({"/front/Index","/"})
     public String toIndex(){
-        return "/page/front/Index";
+        return "page/front/Index";
     }
 
     /*
@@ -23,6 +23,6 @@ public class GlobalController {
    * */
     @RequestMapping("/front/{module}")
     public String toModulePage(@PathVariable String module){
-        return "/page/front/"+module;
+        return "page/front/"+module;
     }
 }
