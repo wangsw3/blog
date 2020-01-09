@@ -12,17 +12,17 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
 	<!-- InstanceEndEditable -->
-	<meta name="Author" contect="wangsw">
-	<meta name="Copyright" content="Blog">
-	<meta name="keywords" content="个人博客,Blog" />
-	<meta name="description" content="Blog，一个程序员的个人博客，记录博主学习和成长之路，分享技术和源码。" />
-	<meta property="og:title" content="Blog" />
-	<meta property="og:title" content="Blog 网站首页" />
+	<meta name="Author" contect="z先生">
+	<meta name="Copyright" content="z-Zhan">
+	<meta name="keywords" content="个人博客,z-Zhan" />
+	<meta name="description" content="z-Zhan，一个JAVA程序员的个人博客，记录博主学习和成长之路，分享技术和源码。" />
+	<meta property="og:title" content="z-Zhan" />
+	<meta property="og:title" content="z-Zhan 网站首页" />
 	<meta property="og:type" content="个人博客" />
-	<meta property="og:url" content="" />
-	<meta property="og:image" content="" />
-	<meta property="og:site_name" content="" />
-	<meta property="og:description" content="Blog，一个程序员的个人博客，记录博主学习和成长之路，分享技术和源码。" />
+	<meta property="og:url" content="www.zzhan.top" />
+	<meta property="og:image" content="../image/logo.png" />
+	<meta property="og:site_name" content="www.zzhan.top" />
+	<meta property="og:description" content="z-Zhan，一个JAVA程序员的个人博客，记录博主学习和成长之路，分享技术和源码。" />
 	<link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon" />
 	<link href="../css/loading.css" rel="stylesheet" />
 	<link href="../css/scroll-bar.css" rel="stylesheet" />
@@ -63,6 +63,11 @@
 <!-- 页头-->
 <header th:fragment="header">
 	<nav>
+		<div class="logo">
+			<a target='_blank' href="Index.html">
+				<img src="../images/logo.png" oncontextmenu="return false;" ondragstart="return false;" />
+			</a>
+		</div>
 		<!-- 汉堡菜单 -->
 		<input type="checkbox" id="togglebox" />
 		<ul>
@@ -81,7 +86,7 @@
 
 <!--页脚-->
 <footer th:fragment="footer">
-	<p><a href="">Copyright &copy; 2019. Blog All rights reserved.</a></p>
+	<p><a href="">Copyright &copy; 2020. z-Zhan All rights reserved.</a></p>
 </footer>
 
 <!-- 登录 -->
