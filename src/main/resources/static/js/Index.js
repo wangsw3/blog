@@ -90,50 +90,53 @@ function iniParam() {
 }
 
 likeArticle();
-//查询最近一周访问的用户
+//查询热门文章
 function likeArticle() {
     $.ajax({
         type: 'get',
         dataType: 'json',
-        url:'/article/get/like',
+        url:'/article/get/like?pageNo=1&pageSize=6',
         success: function (response) {
             console.log(response);
             if ("1" == response.status && null != response.data) {
-                var list = JSON.parse(response.data);
-                if(list.length>0){
-                    var likeArticle = '';
-                    for(var i=0; i<list.length; i++){
-                        var id = list[i].id;
-                        var imgUrl = list[i].imgUrl;
-                        var createByName = list[i].createByName;
-                        var createTime = list[i].createTime;
-                        createTime = formatDate(createTime)
-                        var title = list[i].title;
-                        if(title.length>15){
-                            title = title.substring(0,15)+"...";
+                var size = response.data.size;
+                if(size>0){
+                    var list = response.data.list;
+                    if(list.length>0){
+                        var likeArticle = '';
+                        for(var i=0; i<list.length; i++){
+                            var id = list[i].id;
+                            var imgUrl = list[i].imgUrl;
+                            var createByName = list[i].createByName;
+                            var createTime = list[i].createTime;
+                            createTime = formatDate(createTime)
+                            var title = list[i].title;
+                            if(title.length>15){
+                                title = title.substring(0,15)+"...";
+                            }
+                            var content = list[i].content;
+                            if(content.length>65){
+                                content = content.substring(0,65)+"...";
+                            }
+                            var articleInfo = '<div class="layui-col-md4 layui-col-sm6 layui-col-xs12">'
+                                + '<article class="card">'
+                                + '<a href="/front/ArticleDetails?id=' +id+ '">'
+                                + '<img class="card-img-top" src="' +imgUrl+ '" alt=""></a>'
+                                + '<div class="card-body">'
+                                + '<div class="card-subtitle mb-2 text-muted">作者：' +createByName+ ' &nbsp;&nbsp;' +createTime+ '</div>'
+                                + '<h4 class="card-title"><a href="/front/ArticleDetails?id=' +id+ '">' +title+ '</a></h4>'
+                                + '<p class="card-text">' +content+ '</p>'
+                                + '<div class="text-right">'
+                                + '<a href="/front/ArticleDetails?id='+id+'" class="card-more">阅读更多&nbsp;<i class="layui-icon layui-icon-right"></i></a>'
+                                + '</div>'
+                                + '</div>'
+                                + '</article>'
+                                + '</div>';
+                            likeArticle += articleInfo;
                         }
-                        var content = list[i].content;
-                        if(content.length>65){
-                            content = content.substring(0,65)+"...";
-                        }
-                        var articleInfo = '<div class="layui-col-md4 layui-col-sm6 layui-col-xs12">'
-                            + '<article class="card">'
-                            + '<a href="/front/ArticleDetail?id=' +id+ '">'
-                            + '<img class="card-img-top" src="' +imgUrl+ '" alt=""></a>'
-                            + '<div class="card-body">'
-                            + '<div class="card-subtitle mb-2 text-muted">作者：' +createByName+ ' &nbsp;&nbsp;' +createTime+ '</div>'
-                            + '<h4 class="card-title"><a href="/front/ArticleDetail?id=' +id+ '">' +title+ '</a></h4>'
-                            + '<p class="card-text">' +content+ '</p>'
-                            + '<div class="text-right">'
-                            + '<a href="/front/ArticleDetail?id='+id+'" class="card-more">阅读更多&nbsp;<i class="layui-icon layui-icon-right"></i></a>'
-                            + '</div>'
-                            + '</div>'
-                            + '</article>'
-                            + '</div>';
-                        likeArticle += articleInfo;
+                        likeArticle += '<span class="border-line"></span>';
+                        $('.blog-body').html(likeArticle);
                     }
-                    likeArticle += '<span class="border-line"></span>';
-                    $('.blog-body').html(likeArticle);
                 }
             }else {
                 layer.msg('请求失败！'+response);
@@ -167,7 +170,7 @@ function formatDate(time) {
 }
 
 hotCommentUser();
-//查询最近一周访问的用户
+//查询热门评论用户
 function hotCommentUser() {
     $.ajax({
         type: 'get',

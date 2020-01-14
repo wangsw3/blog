@@ -4,7 +4,7 @@ function iniParam() {
     var form = layui.form,laypage = layui.laypage,layedit = layui.layedit;
 	
  	layer.photos({
-		photos: '#details-content',
+		photos: '.content',
 		anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
 	});   
 	
@@ -29,27 +29,79 @@ function iniParam() {
 			$(this).text('回复');
 		}
 	});
-	
-	laypage.render({
-		elem: 'page',
-		count: 10, //数据总数通过服务端得到
-		limit: 5, //每页显示的条数。laypage将会借助 count 和 limit 计算出分页数。
-		curr: 1,
-		first: '首页',
-		last: '尾页',
-		layout: ['prev', 'page', 'next', 'skip'],
-		//theme: "page",
-		jump: function (obj, first) {
-			if (!first) { //首次不执行
-				layer.msg("第"+obj.curr+"页");
 
-			}
-		}
-	});
+    //获取url中的参数
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
+    }
 
-  
-	
-	
+    //查询文章详情
+    getArticleById();
+    function getArticleById() {
+		var id= getUrlParam('id');
+        $.ajax({
+            type: 'get',
+            dataType: 'json',
+            url:'/article/get/id?id='+id,
+            success: function (response) {
+                console.log(response);
+                if ("1" == response.status && null != response.data) {
+                    var article = JSON.parse(response.data);
+
+                }else {
+                    layer.msg('请求失败！'+response);
+                }
+            },
+            error: function (response) {
+                layer.msg('请求失败！'+response);
+            }
+        })
+
+        //上一篇
+        $.ajax({
+            type: 'get',
+            dataType: 'json',
+            url:'/article/get/id?id='+(parseInt(id)-1),
+            success: function (response) {
+                console.log(response);
+                if ("1" == response.status && null != response.data) {
+                    var article = JSON.parse(response.data);
+                    var article = JSON.parse(response.data);
+                    var txt = '上一篇：<a target="_blank" href="/front/ArticleDetails?id='
+                        + article.id + '">'
+                        + article.title + '</a>';
+                    $('.prev').html(txt);
+                }
+            },
+            error: function (response) {
+                layer.msg('请求失败！'+response);
+            }
+        })
+
+        //下一篇
+        $.ajax({
+            type: 'get',
+            dataType: 'json',
+            url:'/article/get/id?id='+(parseInt(id)+1),
+            success: function (response) {
+                console.log(response);
+                if ("1" == response.status && null != response.data) {
+                    var article = JSON.parse(response.data);
+                    var txt = '下一篇：<a target="_blank" href="/front/ArticleDetails?id='
+                        + article.id + '">'
+                        + article.title + '</a>';
+                    $('.next').html(txt);
+
+                }
+            },
+            error: function (response) {
+                layer.msg('请求失败！'+response);
+            }
+        })
+    }
+
 	//我用的百度编辑器，按照你们自己需求改
 	CodeHighlighting(); //代码高亮
     function CodeHighlighting() {

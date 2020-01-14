@@ -73,21 +73,20 @@ public class TArticleController {
     @ApiOperation(value = "热门文章列表", notes = "热门文章列表")
     @RequestMapping(value="/get/like",method= RequestMethod.GET)
     @ResponseBody
-    public Result getLike(){
-        JSONArray result = new JSONArray();
+    public Result getLike(@RequestParam(value="pageNo",defaultValue="1")int pageNo, @RequestParam(value="pageSize",defaultValue="10")int pageSize){
+        PageInfo<TArticle> result = new  PageInfo<TArticle>();
         try{
+            PageHelper.startPage(pageNo,pageSize);
             List<TArticle> tArticleList = tArticleMapper.getLike();
             if(tArticleList.size()>0){
-                for(TArticle tArticle : tArticleList){
-                    result.add(JSONObject.toJSON(tArticle));
-                }
+                result = new PageInfo<>(tArticleList);
             }
-            logger.debug("热门文章列表=>{}",result.toJSONString());
+            logger.debug("热门文章列表=>{}",result);
         }catch (Exception e){
             logger.error(e.toString());
             return new Result("0","请求失败");
         }
-        return new Result("1","请求成功",result.toJSONString());
+        return new Result("1","请求成功",result);
     }
 
     @ApiOperation(value = "新增文章", notes = "新增文章")
