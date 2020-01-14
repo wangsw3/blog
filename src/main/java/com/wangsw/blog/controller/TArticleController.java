@@ -1,12 +1,17 @@
 package com.wangsw.blog.controller;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.wangsw.blog.common.Result;
+import com.wangsw.blog.dao.TArticleClassMapper;
 import com.wangsw.blog.dao.TArticleMapper;
+import com.wangsw.blog.dao.TArticleTypeMapper;
+import com.wangsw.blog.dao.TUserMapper;
 import com.wangsw.blog.po.TArticle;
+import com.wangsw.blog.po.TArticleClass;
+import com.wangsw.blog.po.TArticleType;
+import com.wangsw.blog.po.TUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -31,6 +36,15 @@ public class TArticleController {
     @Autowired
     TArticleMapper tArticleMapper;
 
+    @Autowired
+    TArticleClassMapper tArticleClassMapper;
+
+    @Autowired
+    TArticleTypeMapper tArticleTypeMapper;
+
+    @Autowired
+    TUserMapper tUserMapper;
+
     Logger logger = LoggerFactory.getLogger(TArticleController.class);
 
     @ApiOperation(value = "查询文章", notes = "查询文章")
@@ -40,6 +54,23 @@ public class TArticleController {
         JSONObject result = new JSONObject();
         try{
             TArticle tArticle = tArticleMapper.selectByPrimaryKey(id);
+            if(null != tArticle){
+                //查询分类
+                TArticleClass tArticleClass = tArticleClassMapper.selectByPrimaryKey(tArticle.getId());
+                if(null != tArticleClass){
+                    tArticle.setClassName(tArticleClass.getClassName());
+                }
+                //查询类型
+                TArticleType tArticleType = tArticleTypeMapper.selectByPrimaryKey(tArticle.getId());
+                if(null != tArticleType){
+                    tArticle.setTypeName(tArticleType.getTypeName());
+                }
+                //查询作者
+                TUser tUser = tUserMapper.selectByPrimaryKey(tArticle.getCreateBy());
+                if(null != tUser){
+                    tArticle.setCreateByName(tUser.getRealName());
+                }
+            }
             result = (JSONObject) JSONObject.toJSON(tArticle);
             logger.debug("文章id=>{}",id);
             logger.debug("文章信息=>{}",result.toJSONString());
@@ -120,5 +151,6 @@ public class TArticleController {
         }
         return new Result("1","请求成功",article.getId()+"");
     }
+
 
 }

@@ -13,7 +13,11 @@ public class TArticle {
 
     private Integer typeId;
 
+    private String typeName;
+
     private Integer classId;
+
+    private String className;
 
     private Integer ding;
 
@@ -181,5 +185,21 @@ public class TArticle {
 
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
     }
 }
