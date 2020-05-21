@@ -7,6 +7,7 @@ import com.github.pagehelper.PageInfo;
 import com.wangsw.blog.common.Result;
 import com.wangsw.blog.dao.TUserMapper;
 import com.wangsw.blog.po.TUser;
+import com.wangsw.blog.utils.AES128;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -42,6 +43,10 @@ public class TUserController {
         JSONObject result = new JSONObject();
         try{
             TUser tUser = tUserMapper.selectByPrimaryKey(id);
+            AES128.Decrypt(tUser.getPassword());
+
+
+
             result = (JSONObject) JSONObject.toJSON(tUser);
             logger.debug("用户id=>{}",id);
             logger.debug("用户信息=>{}",result.toJSONString());
@@ -151,6 +156,7 @@ public class TUserController {
     @ResponseBody
     public Result insert(@RequestBody TUser user){
         try{
+            String password = AES128.Encrypt(user.getPassword());
             user.setStatus(STATUS_Y);
             user.setCreateTime(new Date());
             user.setUpdateTime(new Date());
